@@ -58,3 +58,6 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+# Mac stinks #
+*.DS_Store
