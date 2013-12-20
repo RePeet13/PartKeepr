@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/detailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Part Title"
+        android:paddingLeft="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+            <TextView 
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="@+string/descriptionDetail" />
+                
+            <EditText
+                android:id="@+id/detailDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" 
+                android:inputType="textMultiLine" />
+            
+            
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView 
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="3"
+                 android:text="@+string/categoryDetail" />
+                <TextView
+                    android:id="@+id/detailCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </LinearLayout>
+            
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView 
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="3"
+                 android:text="@+string/stockLevelDetail" />
+                <EditText
+                    android:id="@+id/detailStockLevel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0"
+                    android:inputType="number" />
+            </LinearLayout>
+            
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView 
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="3"
+                 android:text="@+string/storageLocationDetail" />
+                <!-- Spinner of locations? maybe should be different -->
+                <TextView
+                    android:id="@+id/detailStorageLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </LinearLayout>
+            
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView 
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="3"
+                 android:text="@+string/commentDetail" />
+                <TextView
+                    android:id="@+id/detailComment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </LinearLayout>
+            
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView 
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="3"
+                 android:text="@+string/createDateDetail" />
+                <TextView
+                    android:id="@+id/detailCreateDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="" />
+            </LinearLayout>
+            
+            
+		    <TextView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@+string/imagesDetail"
+		        android:paddingLeft="20dp"
+	        	android:textAppearance="?android:attr/textAppearanceMedium" />
+
+		    <HorizontalScrollView
+		        android:id="@+id/horizontalScrollView1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" >
+
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent"
+		            android:orientation="horizontal" >
+		            
+				    <ImageButton
+				        android:id="@+id/detailAddImage"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:src="@android:drawable/ic_menu_camera"
+				        android:onClick="addImage()"
+				        android:contentDescription="Button to activate image chooser" />
+				    
+		            <TextView
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:paddingLeft="20dp"
+				        android:text="@+string/noImages"
+			        	android:textAppearance="?android:attr/textAppearanceSmall" />
+		        
+		            
+		        </LinearLayout>
+		    </HorizontalScrollView>
+                
+        </LinearLayout>
+        
+    </ScrollView>
+    
+</LinearLayout>

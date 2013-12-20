@@ -7,5 +7,18 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="ok">OK</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string-array name="serverList">
+        <item >http://serverone.com/PartKeepr/frontend</item>
+    </string-array>
+    <string name="descriptionDetail">Description</string>
+    <string name="categoryDetail">Category</string>
+    <string name="stockLevelDetail">Stock Level</string>
+    <string name="storageLocationDetail">Storage Location</string>
+    <string name="commentDetail">Comment</string>
+    <string name="createDateDetail">Creation Date</string>
+    <string name="imagesDetail">Images</string>
+    <string name="noImages">No Images to Display</string>
 
 </resources>

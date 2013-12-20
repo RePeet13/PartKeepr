@@ -2,14 +2,18 @@ package com.unrulyrecursion.partkeeprconnector;
 
 import java.util.Locale;
 
+import com.honeybadgers.fropandroid.AboutFragment;
+import com.honeybadgers.fropandroid.Login;
+import com.honeybadgers.fropandroid.MainActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +37,8 @@ public class MainActivity extends FragmentActivity {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	static String base_url = "http://sterlingthoughts.homelinux.com:7331/PartKeepr/frontend/"; // TODO don't leave this url here
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,27 @@ public class MainActivity extends FragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
+		// Next two lines are required to successfully perform network
+		// operations
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		
+		
+		/** Based on Social Greek **/
+		Intent i = new Intent(MainActivity.this, LoginFragment.class);
+		i.setAction("LOGIN");
+		
+		MainActivity.this.finish();
+		startActivity(i);
+		
+		// Create the adapter that will return a fragment for each of the three
+		// primary sections of the app.
+		mSectionsPagerAdapter = new SectionsPagerAdapter(
+				getSupportFragmentManager());
+
+		// Set up the ViewPager with the sections adapter.
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
 	}
 
 	@Override
@@ -55,6 +82,47 @@ public class MainActivity extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	// Taken from SocialGreek 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+
+		case R.id.fragment_login:
+			AboutFragment dialog = new AboutFragment();
+			dialog.show(getSupportFragmentManager(), null);
+			break;
+		case R.id.action_settings:
+			break;
+		case R.id.action_logout:
+			// session.clear(); // TODO implement this
+			Intent i = new Intent(MainActivity.this, LoginFragment.class);
+			i.setAction("LOGOUT");
+
+			// Closing all the Activities
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			// Add new Flag to start new Activity
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			/*
+			 * Keep no record that login was started, so that when you press
+			 * back after logging in, you don't go back to the Login page
+			 */
+			i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			MainActivity.this.finish();
+			startActivity(i);
+			break;
+
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	public static void setBaseUrl(String url) {
+		MainActivity.base_url = url;
 	}
 
 	/**
