@@ -10,9 +10,9 @@ public class JsonParser {
 	}
 
 	public JSONArray getJSONFromUrl(String url) {
-		
+		return null;
 	}
 	public JSONArray getJSONFromUrl(String url, String sessionId) {
-		
+		return null;
 	}
 }

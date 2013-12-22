@@ -1,11 +1,6 @@
 package com.unrulyrecursion.partkeeprconnector;
 
 import java.util.Locale;
-
-import com.honeybadgers.fropandroid.AboutFragment;
-import com.honeybadgers.fropandroid.Login;
-import com.honeybadgers.fropandroid.MainActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -84,42 +79,41 @@ public class MainActivity extends FragmentActivity {
 		return true;
 	}
 	
-	// Taken from SocialGreek 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		switch (item.getItemId()) {
-
-		case R.id.fragment_login:
-			AboutFragment dialog = new AboutFragment();
-			dialog.show(getSupportFragmentManager(), null);
-			break;
-		case R.id.action_settings:
-			break;
-		case R.id.action_logout:
-			// session.clear(); // TODO implement this
-			Intent i = new Intent(MainActivity.this, LoginFragment.class);
-			i.setAction("LOGOUT");
-
-			// Closing all the Activities
-			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-			// Add new Flag to start new Activity
-			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			/*
-			 * Keep no record that login was started, so that when you press
-			 * back after logging in, you don't go back to the Login page
-			 */
-			i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			MainActivity.this.finish();
-			startActivity(i);
-			break;
-
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+//	// Taken from SocialGreek 
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		// TODO Auto-generated method stub
+//		switch (item.getItemId()) {
+//
+////		case R.id.fragment_login:
+////			LoginFragment dialog = new AboutFragment();
+////			dialog.show(getSupportFragmentManager(), null);
+////			break;
+//		case R.id.action_settings:
+//			break;
+//		case R.id.action_logout:
+//			// session.clear(); // TODO implement this
+//			Intent i = new Intent(MainActivity.this, LoginFragment.class);
+//
+//			// Closing all the Activities
+//			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//			// Add new Flag to start new Activity
+//			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//			/*
+//			 * Keep no record that login was started, so that when you press
+//			 * back after logging in, you don't go back to the Login page
+//			 */
+//			i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//			MainActivity.this.finish();
+//			startActivity(i);
+//			break;
+//
+//		default:
+//			break;
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
 	
 	public static void setBaseUrl(String url) {
 		MainActivity.base_url = url;
@@ -140,9 +134,20 @@ public class MainActivity extends FragmentActivity {
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
+			Fragment fragment = null;
 			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+//			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+			switch (position) {
+			case 0:
+				fragment = new LoginFragment();
+				break;
+			case 1:
+				fragment = new PartCategoryListFragment();
+				break;
+			default:
+				fragment = new LoginFragment();
+				break;
+			}
 			fragment.setArguments(args);
 			return fragment;
 		}
