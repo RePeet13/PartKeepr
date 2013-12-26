@@ -1,9 +1,10 @@
 package com.unrulyrecursion.partkeeprconnector;
 
 import java.util.Locale;
-
+import com.unrulyrecursion.partkeeprconnector.utilities.*;
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
@@ -35,8 +36,9 @@ public class MainActivity extends FragmentActivity {
 	private ViewPager mViewPager;
 	private SectionsPagerAdapter mSectionsPagerAdapter;
 	
+	protected static SessionManagement session;
 	protected String sessionId; // Current SessionID
-	protected static String base_url = "http://sterlingthoughts.homelinux.com:7331/PartKeepr/frontend/"; // TODO don't leave this url here
+	public static String base_url = "http://sterlingthoughts.homelinux.com:7331/PartKeepr/frontend/rest.php/"; // TODO don't leave this url here
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		sessionId = "none";
+		session = new SessionManagement(this,"something");
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -83,8 +86,6 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
 			Fragment fragment = null;
 			Bundle args = new Bundle();
 //			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
@@ -112,43 +113,17 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public CharSequence getPageTitle(int position) {
 			Locale l = Locale.getDefault();
+			Resources res = getResources();
+			String[] pageTitles = res.getStringArray(R.array.pageTitles);
 			switch (position) {
 			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
+				return pageTitles[0].toUpperCase();
 			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
+				return pageTitles[1].toUpperCase();
 			case 2:
-				return getString(R.string.title_section3).toUpperCase(l);
+				return pageTitles[2].toUpperCase();
 			}
 			return null;
 		}
 	}
-
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		public DummySectionFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
-					container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
-			return rootView;
-		}
-	}
-
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -8,12 +8,16 @@
         android:id="@+id/serverSpinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/serverList" />
+        android:layout_centerHorizontal="true"
+        android:entries="@array/serverList"
+        android:layout_margin="10dip" />
 
     <EditText
         android:id="@+id/loginUser"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/serverSpinner"
         android:hint="@+string/username"
         android:ems="10" />
        
@@ -21,8 +25,22 @@
         android:id="@+id/loginPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/loginUser"
         android:hint="@+string/password"
         android:ems="10"
         android:inputType="textPassword" />
+    
+    <Button
+        android:id="@+id/initiateLogin"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/loginPass"
+        android:gravity="center"
+        android:text="@+string/loginButton"
+        android:onClick="initiateLogin"
+        android:layout_margin="10dip"
+        />
 
-</LinearLayout>
+</RelativeLayout>

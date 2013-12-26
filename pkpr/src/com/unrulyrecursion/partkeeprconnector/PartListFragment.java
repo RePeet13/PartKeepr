@@ -3,6 +3,7 @@ package com.unrulyrecursion.partkeeprconnector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.unrulyrecursion.partkeeprconnector.utilities.*;
 
@@ -17,7 +18,7 @@ public class PartListFragment extends Fragment {
 	// JSON Node names
 	private static final String Tag_Part_Name = "PartName"; // TODO fill this in
 	
-	JSONArray parts = null;
+	JSONObject parts = null;
 	ArrayList<HashMap<String, String>> partsList;
 	
 	@Override

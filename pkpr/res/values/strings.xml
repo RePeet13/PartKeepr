@@ -20,5 +20,11 @@
     <string name="createDateDetail">Creation Date</string>
     <string name="imagesDetail">Images</string>
     <string name="noImages">No Images to Display</string>
+    <string-array name="pageTitles">
+        <item >Login</item>
+        <item >Part Categories</item>
+        <item >Part List</item>
+    </string-array>
+    <string name="loginButton">LOGIN</string>
 
 </resources>
