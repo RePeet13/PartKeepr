@@ -147,14 +147,14 @@ public class SessionManagement {
 		editor.commit();
 	}
 
-	//Retrieve the stored username
-	String getName(){
+	// Retrieve the stored username
+	public String getName(){
 		String name = pref.getString(KEY_NAME, null);
 		return name;
 	}
 	
-	//Retrieve the stored session Id
-	String getSessId(){
+	// Retrieve the stored session Id
+	public String getSessId(){
 		String sessId = pref.getString(SESS_ID, null);
 		return sessId;
 	}

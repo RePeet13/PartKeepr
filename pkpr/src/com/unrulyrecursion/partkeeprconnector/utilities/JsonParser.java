@@ -1,6 +1,7 @@
 package com.unrulyrecursion.partkeeprconnector.utilities;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -12,16 +13,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.unrulyrecursion.partkeeprconnector.model.PartCategory;
+
 import android.util.Log;
 
 public class JsonParser {
 			
 	// JSON Wrapper Node names
+	// Response Wrapper
 	private static final String TAG_STATUS = "status";
 	private static final String TAG_SUCCESS = "success";
 	private static final String TAG_RESPONSE = "response";
 	private static final String TAG_TIMING = "timing";
+	// Login
 	private static final String TAG_SESSION_ID = "sessionid";
+	// Part Categories
+	private static final String TAG_PART_CATEGORY_ID = "id";
+	private static final String TAG_PART_CATEGORY_NAME = "name";
+	private static final String TAG_PART_CATEGORY_DESCRIPTION = "description";
+	private static final String TAG_PART_CATEGORY_CHILDREN = "children";
+	private static final String TAG_PART_CATEGORY_LEAF = "leaf";
+	private static final String TAG_PART_CATEGORY_EXPANDED = "expanded"; // If should be expanded on open
+	
+	private static JSONArray tmp;
 	
 	public JsonParser() {
 	}
@@ -60,10 +74,10 @@ public class JsonParser {
 		return null;
 	}
 
-	public JSONObject getJSONFromUrl(String url) {
+	public static JSONObject getJSONFromUrl(String url) {
 		return getJSONFromUrl(url, "none");
 	}
-	public JSONObject getJSONFromUrl(String url, String sessionId) {
+	public static JSONObject getJSONFromUrl(String url, String sessionId) {
 
 		try { //grab the JSON data from the URL and return the entities of it.
 			HttpClient client = new DefaultHttpClient();
@@ -106,5 +120,49 @@ public class JsonParser {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static PartCategory parsePartCategories(JSONObject in) {
+		Log.d("JSON Parser","Parsing Part Categories");
+		PartCategory pc = new PartCategory();
+		
+		try {
+			pc.setId(in.getInt(TAG_PART_CATEGORY_ID));
+			pc.setName(in.getString(TAG_PART_CATEGORY_NAME));
+			pc.setDescription(in.getString(TAG_PART_CATEGORY_DESCRIPTION));
+			pc.setExpanded(in.getBoolean(TAG_PART_CATEGORY_EXPANDED));
+			pc.setLeaf(in.getBoolean(TAG_PART_CATEGORY_LEAF));
+		} catch (JSONException e) {
+			return null;
+		}
+		
+		if (pc.getLeaf()) {return pc;}
+		tmp = null;
+		
+		try {
+			tmp = in.getJSONArray(TAG_PART_CATEGORY_CHILDREN);
+		} catch (JSONException e) {
+			
+		}
+		
+		JSONObject otmp;
+		PartCategory kid;
+		
+		for (int i = 0; i < tmp.length(); i++) {
+			try {
+				kid = new PartCategory();
+				otmp = tmp.getJSONObject(i);
+				kid.setId(in.getInt(TAG_PART_CATEGORY_ID));
+				kid.setName(in.getString(TAG_PART_CATEGORY_NAME));
+				kid.setDescription(in.getString(TAG_PART_CATEGORY_DESCRIPTION));
+				kid.setExpanded(in.getBoolean(TAG_PART_CATEGORY_EXPANDED));
+				kid.setLeaf(in.getBoolean(TAG_PART_CATEGORY_LEAF));
+				pc.addChild(kid);
+			} catch (JSONException e) {
+				// Need anything here?
+			}
+			
+		}
+		return pc;
 	}
 }

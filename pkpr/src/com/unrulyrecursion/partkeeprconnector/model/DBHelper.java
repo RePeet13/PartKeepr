@@ -1,4 +1,4 @@
-package com.unrulyrecursion.partkeeprconnector.db;
+package com.unrulyrecursion.partkeeprconnector.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
