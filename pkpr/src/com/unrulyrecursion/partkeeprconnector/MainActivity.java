@@ -91,14 +91,16 @@ public class MainActivity extends FragmentActivity {
 //			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 			switch (position) {
 			case 0:
-				fragment = new LoginFragment();
-				break;
+				return new LoginFragment();
 			case 1:
 				fragment = new PartCategoryListFragment();
 				break;
 			case 2:
 				fragment = new PartListFragment();
 				break;
+			}
+			if (!session.isLoggedIn()) {
+				return new NoServerFragment();
 			}
 			fragment.setArguments(args);
 			return fragment;

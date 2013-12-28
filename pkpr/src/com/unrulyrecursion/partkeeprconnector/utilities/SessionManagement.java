@@ -165,7 +165,7 @@ public class SessionManagement {
 	 * */
 	public void checkLogin(String sessId) {
 		// Check login status
-		if (!this.isLoggedIn(sessId)) {
+		if (!this.isLoggedIn()) {
 			// user is not logged in redirect him to Login Activity
 			
 			/* TODO from SG
@@ -214,8 +214,10 @@ public class SessionManagement {
 	 * Quick check for login *
 	 */
 	// Get Login State
-	public boolean isLoggedIn(String sessId) {
-		
+	public boolean isLoggedIn() {
+		if (getSessId()!=null) {
+			return true;
+		}
 		/* TODO from SG
 		String result = api.getUsername(sessId);
 
@@ -225,7 +227,7 @@ public class SessionManagement {
 		
 		*/
 		
-		return true;
+		return false;
 		
 	}
 }

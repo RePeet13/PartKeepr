@@ -30,9 +30,10 @@ public class PartCategoryListFragment extends ListFragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
-		pc = JsonParser.parsePartCategories(jobj);
-		
+		if(MainActivity.session.isLoggedIn()){
+			JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
+			pc = JsonParser.parsePartCategories(jobj);
+		}
 		super.onCreate(savedInstanceState);
 	
 	}
@@ -41,16 +42,18 @@ public class PartCategoryListFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_part_category_list, container, false);
-		names = pc.getAllNames();
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, (String[]) names.toArray());
-		/* FROM SG
-		ListAdapter adapter = new SimpleAdapter(getActivity(), eventList,
-				R.layout.list_item,
-				new String[] { TAG_TYPE, TAG_TITLE, TAG_DATE, TAG_SUMMARY }, new int[] {
-						R.id.eventType, R.id.eventName, R.id.eventDate, R.id.eventDescrip
-						});//Parsed JSON into an actual list
-		*/
-		setListAdapter(adapter);
+		if (MainActivity.session.isLoggedIn()){
+			names = pc.getAllNames();
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, (String[]) names.toArray());
+			/* FROM SG
+			ListAdapter adapter = new SimpleAdapter(getActivity(), eventList,
+					R.layout.list_item,
+					new String[] { TAG_TYPE, TAG_TITLE, TAG_DATE, TAG_SUMMARY }, new int[] {
+							R.id.eventType, R.id.eventName, R.id.eventDate, R.id.eventDescrip
+							});//Parsed JSON into an actual list
+			*/
+			setListAdapter(adapter);
+		}
 		return view;
 	}
 

@@ -26,5 +26,6 @@
         <item >Part List</item>
     </string-array>
     <string name="loginButton">LOGIN</string>
+    <string name="noServer">Not Connected to Server</string>
 
 </resources>
