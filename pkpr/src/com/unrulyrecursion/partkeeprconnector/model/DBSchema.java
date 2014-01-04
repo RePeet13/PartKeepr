@@ -23,10 +23,10 @@ public final class DBSchema {
     
    static final String SQL_CREATE_SERVERS =
         "CREATE TABLE " + ServerCreds.TABLE_NAME + " (" +
-	        ServerCreds._ID + " INTEGER PRIMARY KEY," + COMMA_SEP +
+	        ServerCreds._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
 	        ServerCreds.COLUMN_NAME_BASE_URL + TEXT_TYPE + COMMA_SEP +
 	        ServerCreds.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA_SEP +
-	        ServerCreds.COLUMN_NAME_PASSWORD + TEXT_TYPE + COMMA_SEP +
+	        ServerCreds.COLUMN_NAME_PASSWORD + TEXT_TYPE +
         " )";
 
     static final String SQL_DELETE_ALL_SERVERS =
@@ -44,8 +44,8 @@ public final class DBSchema {
     
     static final String SQL_CREATE_PARTS =
 		"CREATE TABLE " + Parts.TABLE_NAME + " (" +
-				Parts._ID + " INTEGER PRIMARY KEY," + COMMA_SEP +
-				Parts.COLUMN_NAME_BASE_URL + TEXT_TYPE + COMMA_SEP + 
+				Parts._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
+				Parts.COLUMN_NAME_BASE_URL + TEXT_TYPE + 
 			" )";
     
     static final String SQL_DELETE_ALL_PARTS =
@@ -63,8 +63,8 @@ public final class DBSchema {
     
     static final String SQL_CREATE_PART_CATEGORIES =
 		"CREATE TABLE " + Parts.TABLE_NAME + " (" +
-				PartCategories._ID + " INTEGER PRIMARY KEY," + COMMA_SEP +
-				PartCategories.COLUMN_NAME_BASE_URL + TEXT_TYPE + COMMA_SEP + 
+				PartCategories._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
+				PartCategories.COLUMN_NAME_BASE_URL + TEXT_TYPE +
 			" )";
     
     static final String SQL_DELETE_ALL_PART_CATEGORIES =

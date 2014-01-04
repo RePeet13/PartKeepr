@@ -91,11 +91,9 @@ public class MainActivity extends FragmentActivity {
 //			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 			switch (position) {
 			case 0:
-				return new LoginFragment();
-			case 1:
 				fragment = new PartCategoryListFragment();
 				break;
-			case 2:
+			case 1:
 				fragment = new PartListFragment();
 				break;
 			}
@@ -109,7 +107,7 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public int getCount() {
 			// Show 3 total pages.
-			return 3;
+			return 2;
 		}
 
 		@Override
@@ -122,8 +120,6 @@ public class MainActivity extends FragmentActivity {
 				return pageTitles[0].toUpperCase();
 			case 1:
 				return pageTitles[1].toUpperCase();
-			case 2:
-				return pageTitles[2].toUpperCase();
 			}
 			return null;
 		}

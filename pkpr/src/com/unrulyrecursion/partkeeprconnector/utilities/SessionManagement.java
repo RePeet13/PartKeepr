@@ -30,6 +30,8 @@ import android.util.Log;
 
 public class SessionManagement {
 	
+	public String base_url;
+	
 	/*
 	QueryAPI api;
 	 */
@@ -72,14 +74,19 @@ public class SessionManagement {
 		*/
 	}
 	
+	public void setBaseUrl(String url) {
+		this.base_url = url;
+	}
+	
+	
 	/**
 	 * 
 	 * @param username
 	 * @param passHash
 	 * @return String Sessionid
 	 */
-	public String login(String username, String passHash) {
-		
+	public Boolean login(String username, String passHash) {
+		Log.d("Session Management","Entering Login");
 		HttpClient httpClient = new DefaultHttpClient();
 
 		HttpPost httpPost = new HttpPost(MainActivity.base_url);
@@ -117,17 +124,18 @@ public class SessionManagement {
 		}
 		
 		if (res == null) {
-			return "fail"; // TODO
+			return false; // TODO
 		}
 		String sess = JsonParser.parseLoginResponse(res);
 		if (sess != null) {
 			// Successful Login
 			Log.d("SessionMgt", "Successful Login");
 			createLoginSession(username, sess);
+			return true;
 		}
 		
 		
-		return "";
+		return false;
 	}
 
 	/**
@@ -224,7 +232,6 @@ public class SessionManagement {
 		if (result == null || result.isEmpty()) {
 			return false;
 		}
-		
 		*/
 		
 		return false;

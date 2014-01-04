@@ -11,13 +11,25 @@
         android:layout_centerHorizontal="true"
         android:entries="@array/serverList"
         android:layout_margin="10dip" />
+    
+    <EditText 
+        android:id="@+id/serverText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dip"
+        android:layout_below="@id/serverSpinner"
+        android:hint="@+string/serverHint"
+        />
 
     <EditText
         android:id="@+id/loginUser"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/serverSpinner"
+        android:layout_below="@id/serverText"
+        android:layout_marginLeft="60dip"
+        android:layout_marginRight="60dip"
         android:hint="@+string/username"
         android:ems="10" />
        
@@ -27,6 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/loginUser"
+        android:layout_marginLeft="60dip"
+        android:layout_marginRight="60dip"
         android:hint="@+string/password"
         android:ems="10"
         android:inputType="textPassword" />
