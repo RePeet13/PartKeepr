@@ -12,8 +12,8 @@ import android.support.v4.app.Fragment;
 
 public class PartListFragment extends Fragment {
 
-	// url to hit
-	private static String url = MainActivity.base_url + "getParts"; // TODO figure out real url
+	// url suffix
+	private static String urlPart = "getParts"; // TODO figure out real url
 	
 	// JSON Node names
 	private static final String Tag_Part_Name = "PartName"; // TODO fill this in
@@ -31,5 +31,9 @@ public class PartListFragment extends Fragment {
 		parts = jParser.getJSONFromUrl(url);
 		
 		super.onCreate(savedInstanceState);
+	}
+	
+	public void refreshList() {
+		
 	}
 }

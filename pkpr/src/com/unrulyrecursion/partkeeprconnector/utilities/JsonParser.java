@@ -21,12 +21,12 @@ public class JsonParser {
 			
 	// JSON Wrapper Node names
 	// Response Wrapper
-	private static final String TAG_STATUS = "status";
-	private static final String TAG_SUCCESS = "success";
-	private static final String TAG_RESPONSE = "response";
-	private static final String TAG_TIMING = "timing";
+	public static final String TAG_STATUS = "status";
+	public static final String TAG_SUCCESS = "success";
+	public static final String TAG_RESPONSE = "response";
+	public static final String TAG_TIMING = "timing";
 	// Login
-	private static final String TAG_SESSION_ID = "sessionid";
+	public static final String TAG_SESSION_ID = "sessionid";
 	// Part Categories
 	private static final String TAG_PART_CATEGORY_ID = "id";
 	private static final String TAG_PART_CATEGORY_NAME = "name";

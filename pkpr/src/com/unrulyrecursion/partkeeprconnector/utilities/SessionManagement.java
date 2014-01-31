@@ -2,6 +2,8 @@ package com.unrulyrecursion.partkeeprconnector.utilities;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +28,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.util.Log;
 
 public class SessionManagement {
 	
 	public String base_url;
+	public String session_id;
 	
 	/*
 	QueryAPI api;
@@ -236,5 +240,81 @@ public class SessionManagement {
 		
 		return false;
 		
+	}
+	
+	private class getRestTask extends AsyncTask<String, Integer, JSONObject> {
+
+		private String[] urlParts;
+		@Override
+		protected JSONObject doInBackground(String... strings) {
+			int count = strings.length;
+			urlParts = strings;
+			/*
+			for (int i = 0; i < count; i++) {
+				try {
+					// TODO implement multiple requests if wanted
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			*/
+			
+			Log.d("JSON Task", "Building URL");
+			String url = base_url + urlParts[0];
+			HttpClient client = new DefaultHttpClient();
+			HttpGet request = new HttpGet(url);
+			String[] status = new String[5];
+
+			if (session_id.compareToIgnoreCase("none")!=0) {
+				request.setHeader("Cookie", "PHPSESSID=" + session_id);
+			}
+			try {
+				Log.d("JSON Task","Getting response from server");
+				JSONArray result = new JSONArray(EntityUtils.toString(client.execute(request).getEntity()));
+
+				Log.d("JSON Task","Checking server response");
+				JSONObject o = result.getJSONObject(0);
+				status[0] = o.getString(JsonParser.TAG_STATUS);
+				status[1] = o.getString(JsonParser.TAG_SUCCESS);
+				status[2] = o.getString(JsonParser.TAG_TIMING);
+				Log.d("JSON Task", "Seems ok, timing: " + status[2]);
+				JSONObject response = o.optJSONObject(JsonParser.TAG_RESPONSE);
+				
+				if (status[0].compareToIgnoreCase("ok")==0) { // response is expected "ok"
+					Log.d("JSON Task", "response status ok");
+				}
+				
+				if (status[1].compareToIgnoreCase("true")==0) {
+					Log.d("JSON Task", "response success true");
+				}
+				
+				return response;
+				
+			} catch (JSONException e) {
+				Log.w("JSON Task", "JSONException thrown");
+				Log.w("JSON Task", e.getLocalizedMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				Log.w("JSON Task", "IOException thrown");
+				Log.w("JSON Task", e.getLocalizedMessage());
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... progress) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(progress);
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			super.onPostExecute(result);
+			// TODO Auto-generated method stub
+//	        showDialog("Downloaded " + result + " bytes"); // Downloaded result results
+		}
 	}
 }
