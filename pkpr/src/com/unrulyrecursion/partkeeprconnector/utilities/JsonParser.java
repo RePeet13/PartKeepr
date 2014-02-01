@@ -1,6 +1,7 @@
 package com.unrulyrecursion.partkeeprconnector.utilities;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.ParseException;
@@ -13,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.unrulyrecursion.partkeeprconnector.model.Part;
 import com.unrulyrecursion.partkeeprconnector.model.PartCategory;
 
 import android.util.Log;
@@ -25,15 +27,44 @@ public class JsonParser {
 	public static final String TAG_SUCCESS = "success";
 	public static final String TAG_RESPONSE = "response";
 	public static final String TAG_TIMING = "timing";
+	public static final String TAG_DATA = "data";
+	public static final String TAG_TOTAL_COUNT = "totalCount";
 	// Login
 	public static final String TAG_SESSION_ID = "sessionid";
 	// Part Categories
-	private static final String TAG_PART_CATEGORY_ID = "id";
-	private static final String TAG_PART_CATEGORY_NAME = "name";
-	private static final String TAG_PART_CATEGORY_DESCRIPTION = "description";
-	private static final String TAG_PART_CATEGORY_CHILDREN = "children";
-	private static final String TAG_PART_CATEGORY_LEAF = "leaf";
-	private static final String TAG_PART_CATEGORY_EXPANDED = "expanded"; // If should be expanded on open
+	private static final String TAG_PC_ID = "id";
+	private static final String TAG_PC_NAME = "name";
+	private static final String TAG_PC_DESCRIPTION = "description";
+	private static final String TAG_PC_CHILDREN = "children";
+	private static final String TAG_PC_LEAF = "leaf";
+	private static final String TAG_PC_EXPANDED = "expanded"; // If should be expanded on open
+	// Parts
+	private static final String TAG_P_NAME = "name";
+	private static final String TAG_P_DESCRIPTION = "description";
+	private static final String TAG_P_AVERAGE_PRICE = "averagePrice";
+	private static final String TAG_P_STATUS = "status";
+	private static final String TAG_P_NEEDS_REVIEW = "needsReview";
+	private static final String TAG_P_CREATE_DATE = "createDate";
+	private static final String TAG_P_ID = "id";
+	private static final String TAG_P_STOCK_LEVEL = "stockLevel";
+	private static final String TAG_P_MIN_STOCK_LEVEL = "minStockLevel";
+	private static final String TAG_P_COMMENT = "comment";
+	private static final String TAG_P_STORAGE_LOCATION_ID = "storageLocation_id";
+	private static final String TAG_P_CATEGORY_PATH = "categoryPath";
+	private static final String TAG_P_STORAGE_LOCATION_NAME = "storageLocationName";
+	private static final String TAG_P_FOOTPRINT_ID = "footprint_id";
+	private static final String TAG_P_FOOTPRINT_NAME = "footprintName";
+	private static final String TAG_P_PART_CATEGORY = "category";
+	private static final String TAG_P_PART_CATEGORY_NAME = "categoryName";
+	private static final String TAG_P_PART_UNIT = "partUnit";
+	private static final String TAG_P_PART_UNIT_NAME = "partUnitName";
+	private static final String TAG_P_PART_UNIT_SHORT_NAME = "partUnitShortName";
+	private static final String TAG_P_PART_UNIT_DEFAULT = "partUnitDefault";
+	private static final String TAG_P_PART_CONDITION = "partCondition";
+	private static final String TAG_P_ATTACHMENT_COUNT = "attachmentCount";
+	private static final String TAG_P_ATTACHMENTS = "attachments";
+	// Part Attachments
+	private static final String TAG_PA = "something"; // TODO fill in
 	
 	private static JSONArray tmp;
 	
@@ -130,11 +161,12 @@ public class JsonParser {
 		
 		try {
 			Log.d("JSON Parser", "JSON: " + in.toString()); // TODO comment out
-			pc.setId(in.getInt(TAG_PART_CATEGORY_ID));
-			pc.setName(in.getString(TAG_PART_CATEGORY_NAME));
-			pc.setDescription(in.getString(TAG_PART_CATEGORY_DESCRIPTION));
-			pc.setExpanded(in.getBoolean(TAG_PART_CATEGORY_EXPANDED));
-			pc.setLeaf(in.getBoolean(TAG_PART_CATEGORY_LEAF));
+			
+			pc.setId(in.getInt(TAG_PC_ID));
+			pc.setName(in.getString(TAG_PC_NAME));
+			pc.setDescription(in.getString(TAG_PC_DESCRIPTION));
+			pc.setExpanded(in.getBoolean(TAG_PC_EXPANDED));
+			pc.setLeaf(in.getBoolean(TAG_PC_LEAF));
 		} catch (JSONException e) {
 			return null;
 		} catch (NullPointerException e) {
@@ -145,29 +177,91 @@ public class JsonParser {
 		tmp = null;
 		
 		try {
-			tmp = in.getJSONArray(TAG_PART_CATEGORY_CHILDREN);
+			tmp = in.getJSONArray(TAG_PC_CHILDREN);
 		} catch (JSONException e) {
 			
 		}
 		
-		JSONObject otmp;
-		PartCategory kid;
-		
-		for (int i = 0; i < tmp.length(); i++) {
-			try {
-				kid = new PartCategory();
-				otmp = tmp.getJSONObject(i);
-				kid.setId(in.getInt(TAG_PART_CATEGORY_ID));
-				kid.setName(in.getString(TAG_PART_CATEGORY_NAME));
-				kid.setDescription(in.getString(TAG_PART_CATEGORY_DESCRIPTION));
-				kid.setExpanded(in.getBoolean(TAG_PART_CATEGORY_EXPANDED));
-				kid.setLeaf(in.getBoolean(TAG_PART_CATEGORY_LEAF));
-				pc.addChild(kid);
-			} catch (JSONException e) {
-				// Need anything here?
-			}
+		if (tmp != null) {
+			JSONObject otmp;
+			PartCategory kid;
 			
+			for (int i = 0; i < tmp.length(); i++) {
+				Log.d("JSON Parser", "Parsing child " + i);
+				try {
+					kid = new PartCategory();
+					otmp = tmp.getJSONObject(i);
+					kid.setId(in.getInt(TAG_PC_ID));
+					kid.setName(in.getString(TAG_PC_NAME));
+					kid.setDescription(in.getString(TAG_PC_DESCRIPTION));
+					kid.setExpanded(in.getBoolean(TAG_PC_EXPANDED));
+					kid.setLeaf(in.getBoolean(TAG_PC_LEAF));
+					pc.addChild(kid);
+				} catch (JSONException e) {
+					// Need anything here?
+				}
+			}
 		}
 		return pc;
+	}
+	
+	public static ArrayList<Part> parsePartsList(JSONObject in) {
+		Log.d("JSON Parser","Parsing Part");
+		ArrayList<Part> parts = new ArrayList<Part>();
+		try {
+			Log.d("JSON Parser", "Part JSON: " + in.toString()); // TODO comment out
+
+			JSONArray tmp = in.getJSONArray(TAG_DATA);
+			int total = in.getInt(TAG_TOTAL_COUNT);
+			JSONObject otmp;
+			Part p;
+			for (int i=0; i<total; i++) {
+				otmp = tmp.getJSONObject(i);
+				p = new Part();
+				
+				p.setName(in.getString(TAG_P_NAME));
+				p.setDescription(in.getString(TAG_P_DESCRIPTION));
+				p.setStatus(in.getString(TAG_P_STATUS));
+				p.setCreateDate(in.getString(TAG_P_CREATE_DATE));
+				p.setPcName(in.getString(TAG_PC_NAME));
+				p.setId(in.getInt(TAG_P_ID));
+				p.setCategoryId(in.getInt(TAG_P_PART_CATEGORY));
+				p.setStorageLocId(in.getInt(TAG_P_STORAGE_LOCATION_ID));
+				p.setStorageLocName(in.getString(TAG_P_STORAGE_LOCATION_NAME));
+				p.setAttachmentCount(in.getInt(TAG_P_ATTACHMENT_COUNT));
+				
+				parts.add(p);
+			}
+			return parts;
+
+			/*
+			p.setNeedsReview(in.getBoolean(TAG_P_NEEDS_REVIEW));
+			private static final String TAG_P_AVERAGE_PRICE = "averagePrice";
+			private static final String TAG_P_NEEDS_REVIEW = "needsReview";
+			private static final String TAG_P_ID = "id";
+			private static final String TAG_P_STOCK_LEVEL = "stockLevel";
+			private static final String TAG_P_MIN_STOCK_LEVEL = "minStockLevel";
+			private static final String TAG_P_COMMENT = "comment";
+			private static final String TAG_P_STORAGE_LOCATION_ID = "storageLocation_id";
+			private static final String TAG_P_CATEGORY_PATH = "categoryPath";
+			private static final String TAG_P_STORAGE_LOCATION_NAME = "storageLocationName";
+			private static final String TAG_P_FOOTPRINT_ID = "footprint_id";
+			private static final String TAG_P_FOOTPRINT_NAME = "footprintName";
+			private static final String TAG_P_PART_CATEGORY = "category";
+			private static final String TAG_P_PART_CATEGORY_NAME = "categoryName";
+			private static final String TAG_P_PART_UNIT = "partUnit";
+			private static final String TAG_P_PART_UNIT_NAME = "partUnitName";
+			private static final String TAG_P_PART_UNIT_SHORT_NAME = "partUnitShortName";
+			private static final String TAG_P_PART_UNIT_DEFAULT = "partUnitDefault";
+			private static final String TAG_P_PART_CONDITION = "partCondition";
+			private static final String TAG_P_ATTACHMENT_COUNT = "attachmentCount";
+			private static final String TAG_P_ATTACHMENTS = "attachments";
+			*/
+			
+		} catch (JSONException e) {
+			return null;
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 }

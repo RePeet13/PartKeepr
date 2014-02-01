@@ -17,9 +17,8 @@ public class PartCategory {
 		this.setExpanded(expanded);
 	}
 	
-	public PartCategory() {
-		
-	}
+	// Empty constructor to aid in JSON parsing
+	public PartCategory() {	}
 
 	public void addChild(PartCategory kid) {
 		if (kid != null) {
@@ -34,6 +33,11 @@ public class PartCategory {
 			out.addAll(pc.getAllNames());
 		}
 		return out;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 
 	public int getId() {

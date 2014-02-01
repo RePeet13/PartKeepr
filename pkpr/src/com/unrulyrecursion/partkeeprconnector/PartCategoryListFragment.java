@@ -28,48 +28,30 @@ import android.widget.SimpleAdapter;
 public class PartCategoryListFragment extends ListFragment {
 
 	private PartCategory pc;
-	private ArrayList<String> names;
 	private String urlPart = "PartCategory/getAllCategories";
 	private ArrayAdapter<String> adapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(MainActivity.session.isLoggedIn()){
-//			JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
-//			pc = JsonParser.parsePartCategories(jobj);
-			refreshList();
-		}
-	
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_part_category_list, container, false);
-		if (MainActivity.session.isLoggedIn()){
-			names = new ArrayList<String>();
-			if (pc != null) {
-				names = pc.getAllNames();
-			}
-			adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, (String[]) names.toArray());
-			/* FROM SG
-			ListAdapter adapter = new SimpleAdapter(getActivity(), eventList,
-					R.layout.list_item,
-					new String[] { TAG_TYPE, TAG_TITLE, TAG_DATE, TAG_SUMMARY }, new int[] {
-							R.id.eventType, R.id.eventName, R.id.eventDate, R.id.eventDescrip
-							});//Parsed JSON into an actual list
-			*/
-			setListAdapter(adapter);
-		}
 		return view;
 	}
 
 	@Override
 	public void onResume() {
-		refreshList();
+		if(MainActivity.session.isLoggedIn()){
+//			JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
+//			pc = JsonParser.parsePartCategories(jobj);
+			refreshList();
+		}
 		ListView lv = getListView();
-		lv.setOnItemClickListener(new OnItemClickListener() {					//Goto the details of the event
+		lv.setOnItemClickListener(new OnItemClickListener() { // Goto the details of the event
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -105,20 +87,22 @@ public class PartCategoryListFragment extends ListFragment {
 	}
 
 	private void refreshList() {
-		AsyncTask<String, Integer, JSONObject> task = new GetRestTask().execute(urlPart);
-		try {
-			JSONObject in = (JSONObject) task.get();
-			pc = JsonParser.parsePartCategories(in);
-			adapter.notifyDataSetChanged();
-			// TODO inform adapter of changed data
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Log.d("Part Category Fragment", "Refreshing List");
+		AsyncTask<String, Integer, JSONObject> task = new pcRESTtask().execute(urlPart);
+
 	}
 
-	
+	private class pcRESTtask extends GetRestTask {
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			super.onPostExecute(result);
+			
+			pc = JsonParser.parsePartCategories(result);
+			if (pc != null) {
+				adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, (String[]) pc.getAllNames().toArray());
+				setListAdapter(adapter);
+			}
+		}
+	}
 }

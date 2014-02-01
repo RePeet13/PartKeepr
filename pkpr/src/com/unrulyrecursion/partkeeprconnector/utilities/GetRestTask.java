@@ -33,8 +33,9 @@ public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 			}
 			*/
 			
-			Log.d("JSON Task", "Building URL");
 			String url = MainActivity.session.base_url + urlParts[0];
+			Log.d("JSON Task", "Building URL: " + url);
+			
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(url);
 			String[] status = new String[5];
