@@ -2,11 +2,14 @@ package com.unrulyrecursion.partkeeprconnector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.unrulyrecursion.partkeeprconnector.utilities.*;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -26,14 +29,24 @@ public class PartListFragment extends Fragment {
 		
 		partsList = new ArrayList<HashMap<String,String>>();
 		
-		JsonParser jParser = new JsonParser();
+//		JsonParser jParser = new JsonParser();
+//		parts = jParser.getJSONFromUrl(url);
 		
-		parts = jParser.getJSONFromUrl(url);
+		refreshList();
 		
 		super.onCreate(savedInstanceState);
 	}
 	
-	public void refreshList() {
-		
+	public void refreshList()  {
+		AsyncTask<String, Integer, JSONObject> task = new GetRestTask().execute(urlPart);
+		try {
+			parts = (JSONObject) task.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

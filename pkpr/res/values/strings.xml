@@ -11,6 +11,7 @@
     <string name="password">Password</string>
     <string-array name="serverList">
         <item >http://serverone.com/PartKeepr/frontend</item>
+        <item >http://sterlingthoughts.homelinux.com:7331/PartKeepr/frontend/rest.php/</item>
     </string-array>
     <string name="descriptionDetail">Description</string>
     <string name="categoryDetail">Category</string>
@@ -27,5 +28,8 @@
     <string name="loginButton">LOGIN</string>
     <string name="noServer">Not Connected to Server</string>
     <string name="serverHint">New Server URL</string>
+    <string name="success"><i>Success</i></string>
+    <string name="connecting"><i>Connecting</i></string>
+    <string name="failed"><i>Failed</i></string>
 
 </resources>

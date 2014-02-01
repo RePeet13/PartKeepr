@@ -40,24 +40,26 @@ public class JsonParser {
 	public JsonParser() {
 	}
 	
-	public static String parseLoginResponse(JSONArray in) {
+	public static String parseLoginResponse(JSONObject res) {
 
 		try { //grab the JSON data from the URL and return the entities of it.
 			
 			Log.d("JSON Parser","Checking server response");
-			JSONObject o = in.getJSONObject(0);
+			JSONObject o = res;/*.getJSONObject(0);
 			String status = o.getString(TAG_STATUS);
-			String success = o.getString(TAG_SUCCESS);
+			String success = o.getString(TAG_SUCCESS); */
 			Double timing = o.getDouble(TAG_TIMING);
 			JSONObject response = o.optJSONObject(TAG_RESPONSE);
 			String out = null;
 			
+			/*
 			if (status.compareToIgnoreCase("ok")==0) { // response is expected "ok"
 				Log.d("JSON Parser", "response status ok");
 			}
 			if (success.compareToIgnoreCase("true")==0) {
 				Log.d("JSON Parser", "response success true");
 			}
+			*/
 			Log.d("JSON Parser", "Timing:"+timing);
 			
 			out = response.getString(TAG_SESSION_ID);
@@ -127,12 +129,15 @@ public class JsonParser {
 		PartCategory pc = new PartCategory();
 		
 		try {
+			Log.d("JSON Parser", "JSON: " + in.toString()); // TODO comment out
 			pc.setId(in.getInt(TAG_PART_CATEGORY_ID));
 			pc.setName(in.getString(TAG_PART_CATEGORY_NAME));
 			pc.setDescription(in.getString(TAG_PART_CATEGORY_DESCRIPTION));
 			pc.setExpanded(in.getBoolean(TAG_PART_CATEGORY_EXPANDED));
 			pc.setLeaf(in.getBoolean(TAG_PART_CATEGORY_LEAF));
 		} catch (JSONException e) {
+			return null;
+		} catch (NullPointerException e) {
 			return null;
 		}
 		

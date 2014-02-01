@@ -1,13 +1,16 @@
 package com.unrulyrecursion.partkeeprconnector;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONObject;
 
 import com.unrulyrecursion.partkeeprconnector.model.PartCategory;
+import com.unrulyrecursion.partkeeprconnector.utilities.GetRestTask;
 import com.unrulyrecursion.partkeeprconnector.utilities.JsonParser;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -26,15 +29,17 @@ public class PartCategoryListFragment extends ListFragment {
 
 	private PartCategory pc;
 	private ArrayList<String> names;
-	private String url = MainActivity.base_url + "PartCategory/getAllCategories";
+	private String urlPart = "PartCategory/getAllCategories";
+	private ArrayAdapter<String> adapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		if(MainActivity.session.isLoggedIn()){
-			JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
-			pc = JsonParser.parsePartCategories(jobj);
-		}
 		super.onCreate(savedInstanceState);
+		if(MainActivity.session.isLoggedIn()){
+//			JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
+//			pc = JsonParser.parsePartCategories(jobj);
+			refreshList();
+		}
 	
 	}
 
@@ -43,8 +48,11 @@ public class PartCategoryListFragment extends ListFragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_part_category_list, container, false);
 		if (MainActivity.session.isLoggedIn()){
-			names = pc.getAllNames();
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, (String[]) names.toArray());
+			names = new ArrayList<String>();
+			if (pc != null) {
+				names = pc.getAllNames();
+			}
+			adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, (String[]) names.toArray());
 			/* FROM SG
 			ListAdapter adapter = new SimpleAdapter(getActivity(), eventList,
 					R.layout.list_item,
@@ -59,6 +67,7 @@ public class PartCategoryListFragment extends ListFragment {
 
 	@Override
 	public void onResume() {
+		refreshList();
 		ListView lv = getListView();
 		lv.setOnItemClickListener(new OnItemClickListener() {					//Goto the details of the event
 
@@ -95,7 +104,21 @@ public class PartCategoryListFragment extends ListFragment {
 		super.onDestroy();
 	}
 
-
+	private void refreshList() {
+		AsyncTask<String, Integer, JSONObject> task = new GetRestTask().execute(urlPart);
+		try {
+			JSONObject in = (JSONObject) task.get();
+			pc = JsonParser.parsePartCategories(in);
+			adapter.notifyDataSetChanged();
+			// TODO inform adapter of changed data
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	
 }

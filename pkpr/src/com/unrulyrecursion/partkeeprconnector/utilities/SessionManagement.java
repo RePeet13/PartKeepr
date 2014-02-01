@@ -35,6 +35,7 @@ public class SessionManagement {
 	
 	public String base_url;
 	public String session_id;
+	private String loginUrlPart = "Auth/login";
 	
 	/*
 	QueryAPI api;
@@ -73,6 +74,7 @@ public class SessionManagement {
 		pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
 		editor = pref.edit();
 		
+		this.base_url=link;
 		/*
 		QueryAPI api = new QueryAPI(link);
 		*/
@@ -90,10 +92,10 @@ public class SessionManagement {
 	 * @return String Sessionid
 	 */
 	public Boolean login(String username, String passHash) {
-		Log.d("Session Management","Entering Login");
+		Log.d("Session Management","Building Login POST");
 		HttpClient httpClient = new DefaultHttpClient();
 
-		HttpPost httpPost = new HttpPost(MainActivity.base_url);
+		HttpPost httpPost = new HttpPost(base_url+loginUrlPart);
 		httpPost.setHeader("Content-Type",
                 "application/x-www-form-urlencoded;charset=UTF-8");
 		
@@ -101,6 +103,7 @@ public class SessionManagement {
 		nameValuePairs.add(new BasicNameValuePair("username", username));
 		nameValuePairs.add(new BasicNameValuePair("password", passHash));
 		
+		Log.d("Session Management", "Adding namevalue pairs)");
         try {
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
@@ -109,10 +112,11 @@ public class SessionManagement {
 		}
 
 		HttpResponse response;
-		JSONArray res = null;
+		JSONObject res = null;
 		try {
+			Log.d("Session Management", "Executing Login POST");
 			response = httpClient.execute(httpPost);
-			res = new JSONArray(EntityUtils.toString(response.getEntity()));
+			res = new JSONObject(EntityUtils.toString(response.getEntity()));
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -239,82 +243,5 @@ public class SessionManagement {
 		*/
 		
 		return false;
-		
-	}
-	
-	private class getRestTask extends AsyncTask<String, Integer, JSONObject> {
-
-		private String[] urlParts;
-		@Override
-		protected JSONObject doInBackground(String... strings) {
-			int count = strings.length;
-			urlParts = strings;
-			/*
-			for (int i = 0; i < count; i++) {
-				try {
-					// TODO implement multiple requests if wanted
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			*/
-			
-			Log.d("JSON Task", "Building URL");
-			String url = base_url + urlParts[0];
-			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet(url);
-			String[] status = new String[5];
-
-			if (session_id.compareToIgnoreCase("none")!=0) {
-				request.setHeader("Cookie", "PHPSESSID=" + session_id);
-			}
-			try {
-				Log.d("JSON Task","Getting response from server");
-				JSONArray result = new JSONArray(EntityUtils.toString(client.execute(request).getEntity()));
-
-				Log.d("JSON Task","Checking server response");
-				JSONObject o = result.getJSONObject(0);
-				status[0] = o.getString(JsonParser.TAG_STATUS);
-				status[1] = o.getString(JsonParser.TAG_SUCCESS);
-				status[2] = o.getString(JsonParser.TAG_TIMING);
-				Log.d("JSON Task", "Seems ok, timing: " + status[2]);
-				JSONObject response = o.optJSONObject(JsonParser.TAG_RESPONSE);
-				
-				if (status[0].compareToIgnoreCase("ok")==0) { // response is expected "ok"
-					Log.d("JSON Task", "response status ok");
-				}
-				
-				if (status[1].compareToIgnoreCase("true")==0) {
-					Log.d("JSON Task", "response success true");
-				}
-				
-				return response;
-				
-			} catch (JSONException e) {
-				Log.w("JSON Task", "JSONException thrown");
-				Log.w("JSON Task", e.getLocalizedMessage());
-				e.printStackTrace();
-			} catch (IOException e) {
-				Log.w("JSON Task", "IOException thrown");
-				Log.w("JSON Task", e.getLocalizedMessage());
-				e.printStackTrace();
-			}
-			
-			return null;
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... progress) {
-			// TODO Auto-generated method stub
-			super.onProgressUpdate(progress);
-		}
-
-		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
-			// TODO Auto-generated method stub
-//	        showDialog("Downloaded " + result + " bytes"); // Downloaded result results
-		}
 	}
 }

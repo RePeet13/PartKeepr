@@ -36,8 +36,7 @@ public class MainActivity extends FragmentActivity {
 	private ViewPager mViewPager;
 	private SectionsPagerAdapter mSectionsPagerAdapter;
 	
-	protected static SessionManagement session;
-	protected String sessionId; // Current SessionID
+	public static SessionManagement session;
 	public static String base_url = "http://sterlingthoughts.homelinux.com:7331/PartKeepr/frontend/rest.php/"; // TODO don't leave this url here
 
 	@Override
@@ -45,8 +44,14 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		sessionId = "none";
-		session = new SessionManagement(this,"something");
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			session = new SessionManagement(this, extras.getString("BASE_URL"));
+			session.createLoginSession(extras.getString("USERNAME"), extras.getString("SESSION_ID"));
+		}
+		if (session == null) {
+			session = new SessionManagement(this,"something");
+		}
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
