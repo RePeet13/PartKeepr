@@ -88,7 +88,7 @@ public class PartCategoryListFragment extends ListFragment {
 
 	private void refreshList() {
 		Log.d("Part Category Fragment", "Refreshing List");
-		AsyncTask<String, Integer, JSONObject> task = new pcRESTtask().execute(urlPart);
+		AsyncTask<String, Integer, JSONObject> task = new pcRESTtask().execute("POST", urlPart);
 
 	}
 
@@ -100,7 +100,14 @@ public class PartCategoryListFragment extends ListFragment {
 			
 			pc = JsonParser.parsePartCategories(result);
 			if (pc != null) {
-				adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, (String[]) pc.getAllNames().toArray());
+				// TODO have better solution for this...
+				String[] tmp = new String[pc.getAllNames().size()];
+				int i = 0;
+				for (String s : pc.getAllNames()) {
+					tmp[i] = s;
+					i++;
+				}
+				adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, tmp);
 				setListAdapter(adapter);
 			}
 		}

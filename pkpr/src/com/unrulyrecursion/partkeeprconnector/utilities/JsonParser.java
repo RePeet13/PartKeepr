@@ -29,6 +29,10 @@ public class JsonParser {
 	public static final String TAG_TIMING = "timing";
 	public static final String TAG_DATA = "data";
 	public static final String TAG_TOTAL_COUNT = "totalCount";
+	public static final String TAG_EXCEPTION = "exception";
+	public static final String TAG_MESSAGE = "message";
+	public static final String TAG_DETAIL = "detail";
+	public static final String TAG_CODE = "code";
 	// Login
 	public static final String TAG_SESSION_ID = "sessionid";
 	// Part Categories
@@ -75,10 +79,8 @@ public class JsonParser {
 
 		try { //grab the JSON data from the URL and return the entities of it.
 			
-			Log.d("JSON Parser","Checking server response");
-			JSONObject o = res;/*.getJSONObject(0);
-			String status = o.getString(TAG_STATUS);
-			String success = o.getString(TAG_SUCCESS); */
+			Log.d("JSON L Parser","Checking server response");
+			JSONObject o = res;
 			Double timing = o.getDouble(TAG_TIMING);
 			JSONObject response = o.optJSONObject(TAG_RESPONSE);
 			String out = null;
@@ -91,7 +93,7 @@ public class JsonParser {
 				Log.d("JSON Parser", "response success true");
 			}
 			*/
-			Log.d("JSON Parser", "Timing:"+timing);
+			Log.d("JSON L Parser", "Timing:"+timing);
 			
 			out = response.getString(TAG_SESSION_ID);
 			
@@ -107,6 +109,7 @@ public class JsonParser {
 		return null;
 	}
 
+	/*
 	public static JSONObject getJSONFromUrl(String url) {
 		return getJSONFromUrl(url, "none");
 	}
@@ -154,19 +157,19 @@ public class JsonParser {
 		}
 		return null;
 	}
+	*/
 	
 	public static PartCategory parsePartCategories(JSONObject in) {
-		Log.d("JSON Parser","Parsing Part Categories");
+		Log.d("JSON PC Parser","Parsing Part Categories");
 		PartCategory pc = new PartCategory();
-		
 		try {
-			Log.d("JSON Parser", "JSON: " + in.toString()); // TODO comment out
-			
-			pc.setId(in.getInt(TAG_PC_ID));
-			pc.setName(in.getString(TAG_PC_NAME));
-			pc.setDescription(in.getString(TAG_PC_DESCRIPTION));
-			pc.setExpanded(in.getBoolean(TAG_PC_EXPANDED));
-			pc.setLeaf(in.getBoolean(TAG_PC_LEAF));
+			Log.d("JSON PC Parser", "JSON: " + in.toString()); // TODO comment out
+			Log.d("JSON PC Parser", "id: ");// + in.getInt(TAG_PC_ID) + " name: " + in.getString(TAG_PC_NAME) + " leaf: " + in.getBoolean(TAG_PC_LEAF));
+			if (in.has(TAG_PC_ID)) {pc.setId(in.getInt(TAG_PC_ID));}
+			if (in.has(TAG_PC_NAME)) {pc.setName(in.getString(TAG_PC_NAME));}
+			if (in.has(TAG_PC_DESCRIPTION)) {pc.setDescription(in.getString(TAG_PC_DESCRIPTION));}
+			if (in.has(TAG_PC_EXPANDED)) {pc.setExpanded(in.getBoolean(TAG_PC_EXPANDED));}
+			if (in.has(TAG_PC_LEAF)) {pc.setLeaf(in.getBoolean(TAG_PC_LEAF));}
 		} catch (JSONException e) {
 			return null;
 		} catch (NullPointerException e) {
@@ -187,7 +190,7 @@ public class JsonParser {
 			PartCategory kid;
 			
 			for (int i = 0; i < tmp.length(); i++) {
-				Log.d("JSON Parser", "Parsing child " + i);
+				Log.d("JSON PC Parser", "Parsing child " + i);
 				try {
 					kid = new PartCategory();
 					otmp = tmp.getJSONObject(i);
@@ -206,10 +209,10 @@ public class JsonParser {
 	}
 	
 	public static ArrayList<Part> parsePartsList(JSONObject in) {
-		Log.d("JSON Parser","Parsing Part");
+		Log.d("JSON P Parser","Parsing Part");
 		ArrayList<Part> parts = new ArrayList<Part>();
 		try {
-			Log.d("JSON Parser", "Part JSON: " + in.toString()); // TODO comment out
+			Log.d("JSON P Parser", "Part JSON: " + in.toString()); // TODO comment out
 
 			JSONArray tmp = in.getJSONArray(TAG_DATA);
 			int total = in.getInt(TAG_TOTAL_COUNT);

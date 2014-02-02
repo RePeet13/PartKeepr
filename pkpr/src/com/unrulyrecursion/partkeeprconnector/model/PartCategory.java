@@ -18,7 +18,7 @@ public class PartCategory {
 	}
 	
 	// Empty constructor to aid in JSON parsing
-	public PartCategory() {	}
+	public PartCategory() { leaf = false; } // initialize to "not leaf mode"
 
 	public void addChild(PartCategory kid) {
 		if (kid != null) {
@@ -29,8 +29,10 @@ public class PartCategory {
 	public ArrayList<String> getAllNames() {
 		ArrayList<String> out = new ArrayList<String>();
 		out.add(name);
-		for (PartCategory pc : children) {
-			out.addAll(pc.getAllNames());
+		if (children != null) {
+			for (PartCategory pc : children) {
+				out.addAll(pc.getAllNames());
+			}
 		}
 		return out;
 	}

@@ -45,7 +45,7 @@ public class PartListFragment extends ListFragment {
 
 	public void refreshList()  {
 		Log.d("Part List","Refreshing List");
-		AsyncTask<String, Integer, JSONObject> task = new partTask().execute(urlPart);
+		AsyncTask<String, Integer, JSONObject> task = new partTask().execute("GET", urlPart);
 	}
 	
 	private class partTask extends GetRestTask {
