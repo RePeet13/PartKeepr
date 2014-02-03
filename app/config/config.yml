@@ -2,6 +2,24 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+fos_rest:
+    format_listener: true
+    param_fetcher_listener: true
+    view:
+        default_engine: php
+        formats:
+            json: true
+            xml: true
+        templating_formats:
+            html: false
+        view_response_listener: force
+
+
+
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
@@ -11,7 +29,7 @@ framework:
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
+    validation:      { enabled: true, enable_annotations: true }
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
@@ -51,3 +69,10 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+
+        mappings:
+          model:
+            type: annotation
+            dir: %kernel.root_dir%/../src/backend/PartKeepr/
+            prefix: PartKeepr
+            is_bundle: false
