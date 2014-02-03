@@ -24,12 +24,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 public class PartCategoryListFragment extends ListFragment {
 
 	private PartCategory pc;
 	private String urlPart = "PartCategory/getAllCategories";
-	private ArrayAdapter<String> adapter;
+	private ArrayAdapter<PartCategory> adapter;
+	private ArrayList<PartCategory> flat;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -104,10 +106,26 @@ public class PartCategoryListFragment extends ListFragment {
 				String[] tmp = new String[pc.getAllNames().size()];
 				int i = 0;
 				for (String s : pc.getAllNames()) {
+					Log.d("Old List Adapter Input", s);
 					tmp[i] = s;
 					i++;
 				}
-				adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, tmp);
+				flat = pc.flatten();
+				for (PartCategory p : flat){
+					Log.d("List Adapter Input", p.getId() + p.getName());
+				}
+				adapter = new ArrayAdapter<PartCategory>(getActivity(), android.R.layout.simple_list_item_2, android.R.id.text1, flat){
+					@Override
+					public View getView(int position, View convertView, ViewGroup parent) {
+						View view = super.getView(position, convertView, parent);
+					    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+					    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+					    text1.setText(flat.get(position).getName());
+					    text2.setText(flat.get(position).getDescription());
+					    return view;
+					}
+				};
 				setListAdapter(adapter);
 			}
 		}

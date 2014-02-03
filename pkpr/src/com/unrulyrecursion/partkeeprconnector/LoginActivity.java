@@ -72,6 +72,8 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 	public void initiateLogin(View view) {
 		Log.d("Login", "Initiating Login");
 		
+		// TODO check for connectivity and break/notify if there isnt any
+		
 		String user = ((EditText) findViewById(R.id.loginUser)).getText().toString();
 		String pass = ((EditText) findViewById(R.id.loginPass)).getText().toString();
 		String passHash = "null";

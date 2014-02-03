@@ -36,39 +36,39 @@ public class JsonParser {
 	// Login
 	public static final String TAG_SESSION_ID = "sessionid";
 	// Part Categories
-	private static final String TAG_PC_ID = "id";
-	private static final String TAG_PC_NAME = "name";
-	private static final String TAG_PC_DESCRIPTION = "description";
-	private static final String TAG_PC_CHILDREN = "children";
-	private static final String TAG_PC_LEAF = "leaf";
-	private static final String TAG_PC_EXPANDED = "expanded"; // If should be expanded on open
+	public static final String TAG_PC_ID = "id";
+	public static final String TAG_PC_NAME = "name";
+	public static final String TAG_PC_DESCRIPTION = "description";
+	public static final String TAG_PC_CHILDREN = "children";
+	public static final String TAG_PC_LEAF = "leaf";
+	public static final String TAG_PC_EXPANDED = "expanded"; // If should be expanded on open
 	// Parts
-	private static final String TAG_P_NAME = "name";
-	private static final String TAG_P_DESCRIPTION = "description";
-	private static final String TAG_P_AVERAGE_PRICE = "averagePrice";
-	private static final String TAG_P_STATUS = "status";
-	private static final String TAG_P_NEEDS_REVIEW = "needsReview";
-	private static final String TAG_P_CREATE_DATE = "createDate";
-	private static final String TAG_P_ID = "id";
-	private static final String TAG_P_STOCK_LEVEL = "stockLevel";
-	private static final String TAG_P_MIN_STOCK_LEVEL = "minStockLevel";
-	private static final String TAG_P_COMMENT = "comment";
-	private static final String TAG_P_STORAGE_LOCATION_ID = "storageLocation_id";
-	private static final String TAG_P_CATEGORY_PATH = "categoryPath";
-	private static final String TAG_P_STORAGE_LOCATION_NAME = "storageLocationName";
-	private static final String TAG_P_FOOTPRINT_ID = "footprint_id";
-	private static final String TAG_P_FOOTPRINT_NAME = "footprintName";
-	private static final String TAG_P_PART_CATEGORY = "category";
-	private static final String TAG_P_PART_CATEGORY_NAME = "categoryName";
-	private static final String TAG_P_PART_UNIT = "partUnit";
-	private static final String TAG_P_PART_UNIT_NAME = "partUnitName";
-	private static final String TAG_P_PART_UNIT_SHORT_NAME = "partUnitShortName";
-	private static final String TAG_P_PART_UNIT_DEFAULT = "partUnitDefault";
-	private static final String TAG_P_PART_CONDITION = "partCondition";
-	private static final String TAG_P_ATTACHMENT_COUNT = "attachmentCount";
-	private static final String TAG_P_ATTACHMENTS = "attachments";
+	public static final String TAG_P_NAME = "name";
+	public static final String TAG_P_DESCRIPTION = "description";
+	public static final String TAG_P_AVERAGE_PRICE = "averagePrice";
+	public static final String TAG_P_STATUS = "status";
+	public static final String TAG_P_NEEDS_REVIEW = "needsReview";
+	public static final String TAG_P_CREATE_DATE = "createDate";
+	public static final String TAG_P_ID = "id";
+	public static final String TAG_P_STOCK_LEVEL = "stockLevel";
+	public static final String TAG_P_MIN_STOCK_LEVEL = "minStockLevel";
+	public static final String TAG_P_COMMENT = "comment";
+	public static final String TAG_P_STORAGE_LOCATION_ID = "storageLocation_id";
+	public static final String TAG_P_CATEGORY_PATH = "categoryPath";
+	public static final String TAG_P_STORAGE_LOCATION_NAME = "storageLocationName";
+	public static final String TAG_P_FOOTPRINT_ID = "footprint_id";
+	public static final String TAG_P_FOOTPRINT_NAME = "footprintName";
+	public static final String TAG_P_PART_CATEGORY = "category";
+	public static final String TAG_P_PART_CATEGORY_NAME = "categoryName";
+	public static final String TAG_P_PART_UNIT = "partUnit";
+	public static final String TAG_P_PART_UNIT_NAME = "partUnitName";
+	public static final String TAG_P_PART_UNIT_SHORT_NAME = "partUnitShortName";
+	public static final String TAG_P_PART_UNIT_DEFAULT = "partUnitDefault";
+	public static final String TAG_P_PART_CONDITION = "partCondition";
+	public static final String TAG_P_ATTACHMENT_COUNT = "attachmentCount";
+	public static final String TAG_P_ATTACHMENTS = "attachments";
 	// Part Attachments
-	private static final String TAG_PA = "something"; // TODO fill in
+	public static final String TAG_PA = "something"; // TODO fill in
 	
 	private static JSONArray tmp;
 	
@@ -164,47 +164,33 @@ public class JsonParser {
 		PartCategory pc = new PartCategory();
 		try {
 			Log.d("JSON PC Parser", "JSON: " + in.toString()); // TODO comment out
-			Log.d("JSON PC Parser", "id: ");// + in.getInt(TAG_PC_ID) + " name: " + in.getString(TAG_PC_NAME) + " leaf: " + in.getBoolean(TAG_PC_LEAF));
-			if (in.has(TAG_PC_ID)) {pc.setId(in.getInt(TAG_PC_ID));}
+			if (in.has(TAG_PC_ID)) {pc.setId(in.getInt(TAG_PC_ID)); Log.d("JSON PC Parser", "id: " + in.getInt(TAG_PC_ID));}
 			if (in.has(TAG_PC_NAME)) {pc.setName(in.getString(TAG_PC_NAME));}
 			if (in.has(TAG_PC_DESCRIPTION)) {pc.setDescription(in.getString(TAG_PC_DESCRIPTION));}
 			if (in.has(TAG_PC_EXPANDED)) {pc.setExpanded(in.getBoolean(TAG_PC_EXPANDED));}
 			if (in.has(TAG_PC_LEAF)) {pc.setLeaf(in.getBoolean(TAG_PC_LEAF));}
 		} catch (JSONException e) {
+			Log.w("JSON PC Parser", pc.getId() + " failed something");
 			return null;
 		} catch (NullPointerException e) {
 			return null;
 		}
 		
-		if (pc.getLeaf()) {return pc;}
-		tmp = null;
-		
-		try {
-			tmp = in.getJSONArray(TAG_PC_CHILDREN);
-		} catch (JSONException e) {
-			
-		}
-		
-		if (tmp != null) {
-			JSONObject otmp;
-			PartCategory kid;
-			
-			for (int i = 0; i < tmp.length(); i++) {
-				Log.d("JSON PC Parser", "Parsing child " + i);
-				try {
-					kid = new PartCategory();
-					otmp = tmp.getJSONObject(i);
-					kid.setId(in.getInt(TAG_PC_ID));
-					kid.setName(in.getString(TAG_PC_NAME));
-					kid.setDescription(in.getString(TAG_PC_DESCRIPTION));
-					kid.setExpanded(in.getBoolean(TAG_PC_EXPANDED));
-					kid.setLeaf(in.getBoolean(TAG_PC_LEAF));
-					pc.addChild(kid);
-				} catch (JSONException e) {
-					// Need anything here?
+		if (pc.getLeaf()) {
+			return pc;
+		} else {
+			try {
+				tmp = in.getJSONArray(TAG_PC_CHILDREN);
+				for (int i = 0; i < tmp.length(); i++) {
+					Log.d("JSON PC Parser", "Parsing child " + i + " of " + tmp.length());
+					pc.addChild(parsePartCategories(tmp.getJSONObject(i)));
 				}
+			} catch (JSONException e) {
+				Log.w("JSON PC Parser", "Problem adding children: i " +" of " + tmp.length());
+				// Need anything here?
 			}
 		}
+		
 		return pc;
 	}
 	
