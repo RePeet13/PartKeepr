@@ -70,10 +70,7 @@ public class JsonParser {
 	// Part Attachments
 	public static final String TAG_PA = "something"; // TODO fill in
 	
-	private static JSONArray tmp;
-	
-	public JsonParser() {
-	}
+	public JsonParser() { }
 	
 	public static String parseLoginResponse(JSONObject res) {
 
@@ -180,13 +177,13 @@ public class JsonParser {
 			return pc;
 		} else {
 			try {
-				tmp = in.getJSONArray(TAG_PC_CHILDREN);
+				JSONArray tmp = in.getJSONArray(TAG_PC_CHILDREN);
 				for (int i = 0; i < tmp.length(); i++) {
 					Log.d("JSON PC Parser", "Parsing child " + i + " of " + tmp.length());
 					pc.addChild(parsePartCategories(tmp.getJSONObject(i)));
 				}
 			} catch (JSONException e) {
-				Log.w("JSON PC Parser", "Problem adding children: i " +" of " + tmp.length());
+				Log.w("JSON PC Parser", "Problem adding child");
 				// Need anything here?
 			}
 		}

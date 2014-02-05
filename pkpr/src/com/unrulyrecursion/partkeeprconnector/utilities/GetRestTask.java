@@ -78,7 +78,7 @@ public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 					// TODO should print exception out and stop response check
 				}
 				JSONObject response = result.getJSONObject(JsonParser.TAG_RESPONSE);
-				Log.d("Get REST Task", response.toString());
+				// Log.d("Get REST Task", response.toString());
 
 				return response;
 				
