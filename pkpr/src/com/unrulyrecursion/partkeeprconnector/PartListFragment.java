@@ -15,7 +15,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class PartListFragment extends ListFragment {
 
@@ -28,6 +32,7 @@ public class PartListFragment extends ListFragment {
 	
 	private JSONObject parts = null;
 	private ArrayList<Part> partsList;
+	private ArrayList<String> partNames;
 	private ArrayAdapter<String> adapter;
 	
 	@Override
@@ -41,6 +46,28 @@ public class PartListFragment extends ListFragment {
 		if(MainActivity.session.isLoggedIn()){
 			refreshList();
 		}
+
+		ListView lv = getListView();
+		lv.setOnItemClickListener(new OnItemClickListener() { // Goto the details of the event
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				/*
+				
+				Log.d("Position of clicked item", Integer.toString(position));
+				
+				// TODO fix this
+				Intent in = new Intent(getActivity().getApplicationContext(), DetailEvent.class);
+				
+				//pass the hashmap entry for an event to the detailevent class
+				in.putExtra("hashmap", pc.getAllNames().get(position));
+				Log.d("EVENT LIST PASSED: ", String.valueOf(names.get(position)));
+	
+				startActivity(in);
+				
+				*/
+			}
+		});
 	}
 
 	public void refreshList()  {
@@ -56,18 +83,13 @@ public class PartListFragment extends ListFragment {
 
 			partsList = JsonParser.parsePartsList(result);
 			if (partsList != null) {
-				String[] tmp = null;
-				tmp = new String[partsList.size() + 20];
-				int i=0;
-				for(Part p : partsList) {
-					tmp[i] = p.toString();
-					i++;
+				partNames = new ArrayList<String>();
+				for (Part p : partsList) {
+					partNames.add(p.toString());
 				}
 				
-				if(tmp[0] != null) {
-					adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, tmp);
-					setListAdapter(adapter);
-				}
+				adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, partNames);
+				setListAdapter(adapter);
 			}
 		}
 		

@@ -47,6 +47,7 @@ public class PartCategoryListFragment extends ListFragment {
 
 	@Override
 	public void onResume() {
+		super.onResume();
 		if(MainActivity.session.isLoggedIn()){
 //			JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
 //			pc = JsonParser.parsePartCategories(jobj);
@@ -57,23 +58,22 @@ public class PartCategoryListFragment extends ListFragment {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			/*
-			
-			Log.d("Position of clicked item", Integer.toString(position));
-			
-			// TODO fix this
-			Intent in = new Intent(getActivity().getApplicationContext(), DetailEvent.class);
-			
-			//pass the hashmap entry for an event to the detailevent class
-			in.putExtra("hashmap", pc.getAllNames().get(position));
-			Log.d("EVENT LIST PASSED: ", String.valueOf(names.get(position)));
-
-			startActivity(in);
-			
-			*/
-		}
-	});
-		super.onResume();
+				/*
+				
+				Log.d("Position of clicked item", Integer.toString(position));
+				
+				// TODO fix this
+				Intent in = new Intent(getActivity().getApplicationContext(), DetailEvent.class);
+				
+				//pass the hashmap entry for an event to the detailevent class
+				in.putExtra("hashmap", pc.getAllNames().get(position));
+				Log.d("EVENT LIST PASSED: ", String.valueOf(names.get(position)));
+	
+				startActivity(in);
+				
+				*/
+			}
+		});
 }
 	
 	@Override
@@ -102,17 +102,9 @@ public class PartCategoryListFragment extends ListFragment {
 			
 			pc = JsonParser.parsePartCategories(result);
 			if (pc != null) {
-				// TODO have better solution for this...
-				String[] tmp = new String[pc.getAllNames().size()];
-				int i = 0;
-				for (String s : pc.getAllNames()) {
-					Log.d("Old List Adapter Input", s);
-					tmp[i] = s;
-					i++;
-				}
 				flat = pc.flatten();
 				for (PartCategory p : flat){
-					Log.d("List Adapter Input", p.getId() + p.getName());
+					//Log.d("List Adapter Input", p.getId() + " " + p.getName());
 				}
 				adapter = new ArrayAdapter<PartCategory>(getActivity(), android.R.layout.simple_list_item_2, android.R.id.text1, flat){
 					@Override
@@ -123,6 +115,14 @@ public class PartCategoryListFragment extends ListFragment {
 
 					    text1.setText(flat.get(position).getName());
 					    text2.setText(flat.get(position).getDescription());
+					    
+					    /*
+					    if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+					        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+					        p.setMargins(5+20*flat.get(position).getDepth(), 0, 0, 0);
+					        text1.requestLayout();
+					    }
+					    */
 					    return view;
 					}
 				};

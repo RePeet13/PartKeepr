@@ -10,8 +10,8 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string-array name="serverList">
-        <item >http://serverone.com/PartKeepr/frontend</item>
         <item >http://sterlingthoughts.homelinux.com:7331/PartKeepr/frontend/rest.php/</item>
+        <item >http://serverone.com/PartKeepr/frontend</item>
     </string-array>
     <string name="descriptionDetail">Description</string>
     <string name="categoryDetail">Category</string>
@@ -24,6 +24,7 @@
     <string-array name="pageTitles">
         <item >Part Categories</item>
         <item >Part List</item>
+        <item >Storage Locations</item>
     </string-array>
     <string name="loginButton">LOGIN</string>
     <string name="noServer">Not Connected to Server</string>

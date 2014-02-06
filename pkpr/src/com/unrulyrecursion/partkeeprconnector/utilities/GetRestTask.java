@@ -57,7 +57,7 @@ public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 				Log.d("JSON Task","Getting response from server");
 				JSONObject result = new JSONObject(EntityUtils.toString(client.execute(request).getEntity()));
 
-				Log.d("result", result.toString());
+				//Log.d("result", result.toString());
 				Log.d("JSON Task","Checking server response");
 				status[0] = result.getString(JsonParser.TAG_STATUS);
 				status[1] = result.getString(JsonParser.TAG_SUCCESS);

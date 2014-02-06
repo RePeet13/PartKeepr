@@ -5,21 +5,22 @@ import java.util.ArrayList;
 public class PartCategory {
 
 	private ArrayList<PartCategory> children;
-	private int id, parentId;
+	private int id, parentId, depth;
 	private String name, description;
 	private Boolean leaf, expanded;
 	
-	public PartCategory(int id, String name, String description, Boolean leaf, Boolean expanded) {
+	public PartCategory(int id, String name, String description, Boolean leaf, Boolean expanded, int depth) {
 		this.setId(id);
 		this.setName(name);
 		this.setDescription(description);
 		this.setLeaf(leaf);
 		this.setExpanded(expanded);
 		children = new ArrayList<PartCategory>();
+		this.depth = depth;
 	}
 	
 	// Empty constructor to aid in JSON parsing
-	public PartCategory() { leaf = false; children = new ArrayList<PartCategory>(); } // initialize to "not leaf mode"
+	public PartCategory() { leaf = false; children = new ArrayList<PartCategory>(); depth = 1; } // initialize to "not leaf mode"
 
 	public void addChild(PartCategory kid) {
 		if (kid != null) {
@@ -143,5 +144,13 @@ public class PartCategory {
 
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
 	}
 }
