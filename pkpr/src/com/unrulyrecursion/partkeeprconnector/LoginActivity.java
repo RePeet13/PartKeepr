@@ -132,7 +132,8 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 				i.putExtra("SESSION_ID", session.getSessId());
 				i.putExtra("BASE_URL", session.base_url);
 				startActivity(i);
-			} else { // TODO failed login
+			} else {
+				// TODO failed login
 				tv.setText(R.string.failed);
 			}
 		} else {

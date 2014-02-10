@@ -32,5 +32,6 @@
     <string name="success"><i>Success</i></string>
     <string name="connecting"><i>Connecting</i></string>
     <string name="failed"><i>Failed</i></string>
+    <string name="upLevel">Up a level</string>
 
 </resources>

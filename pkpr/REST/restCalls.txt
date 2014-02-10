@@ -31,4 +31,181 @@ Get Parts
 - GET: Part?_dc=1387642414788&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D
 - {"status":"ok","success":true,"response":{"data":[{"name":"Queen Box Spring","description":"","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:46:04","id":4,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Queen Mattress","description":"Euro Top","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:45:48","id":3,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Large Wooden Desk","description":"Custom built","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:44:46","id":2,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Taylor's Things \u27a4 Grau's House \u27a4 Taylor's Room","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":15,"categoryName":"Taylor's Room","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}}],"totalCount":"3"},"timing":0.11476492881775}
 
+Get Parts specific category (Julie's Things)
+- GET: Part?_dc=1391660225307&category=3&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D
+- "status":"ok","success":true,"response":{"data":[{"name":"Queen Box Spring","description":"","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:46:04","id":4,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Queen Mattress","description":"Euro Top","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:45:48","id":3,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}}],"totalCount":"2"},"timing":0.24855589866638}
 
+
+Formatted Nice
+
+
+{	"id":1,
+	"name":"All the Things",
+	"description":"Life is hard",
+	"children":[
+		{	"id":3,
+			"name":"Julie's Things",
+			"description":"These are Julie's things",
+			"children":[
+				{	"id":10,
+					"name":"Julie's Apartment",
+					"description":"Somewhere",
+					"children":[],
+					"leaf":true},
+				{	"id":11,
+					"name":"Julie's Mom's",
+					"description":"Places at Julie's Mom's House",
+					"children":[
+						{	"id":19,
+							"name":"Julie's Old Room",
+							"description":"",
+							"children":[],
+							"leaf":true},
+						{	"id":20,
+							"name":"Attic",
+							"description":"",
+							"children":[],
+							"leaf":true}],
+					"expanded":true}],
+				"expanded":true},
+		{	"id":4,
+			"name":"Taylor's Things",
+			"description":"These are Taylor's things",
+			"children":[
+				{	"id":9,
+					"name":"Taylor's Parents' House",
+					"description":"",
+					"children":[],
+					"leaf":true},
+				{	"id":14,
+					"name":"Grau's House",
+					"description":"Places at Grau's House",
+					"children":[
+						{	"id":15,
+							"name":"Taylor's Room",
+							"description":"",
+							"children":[],
+							"leaf":true},
+						{	"id":16,
+							"name":"Boiler Room",
+							"description":"",
+							"children":[],
+							"leaf":true},
+						{	"id":17,
+							"name":"Attic",
+							"description":"",
+							"children":[],
+							"leaf":true},
+						{	"id":18,
+							"name":"Beard Cave Common Room",
+							"description":"",
+							"children":[],
+							"leaf":true}],
+					"expanded":true}],
+			"expanded":true}],
+	"expanded":true}
+
+
+{
+    "status": "ok",
+    "success": true,
+    "response": {
+        "data": [
+            {
+                "name": "Queen Box Spring",
+                "description": "",
+                "averagePrice": null,
+                "status": "",
+                "needsReview": false,
+                "createDate": "2013-12-11 11:46:04",
+                "id": 4,
+                "stockLevel": 0,
+                "minStockLevel": 0,
+                "comment": "",
+                "storageLocation_id": 109,
+                "categoryPath": "All the Things ➤ Julie's Things ➤ Julie's Apartment",
+                "storageLocationName": "Unboxed",
+                "footprint_id": null,
+                "footprintName": null,
+                "category": 10,
+                "categoryName": "Julie's Apartment",
+                "partUnit": 1,
+                "partUnitName": "Pieces",
+                "partUnitShortName": "pcs",
+                "partUnitDefault": true,
+                "partCondition": "",
+                "attachmentCount": 0,
+                "attachments": {
+                    "response": {
+                        "totalCount": 0,
+                        "data": []
+                    }
+                }
+            },
+            {
+                "name": "Queen Mattress",
+                "description": "Euro Top",
+                "averagePrice": null,
+                "status": "",
+                "needsReview": false,
+                "createDate": "2013-12-11 11:45:48",
+                "id": 3,
+                "stockLevel": 0,
+                "minStockLevel": 0,
+                "comment": "",
+                "storageLocation_id": 109,
+                "categoryPath": "All the Things ➤ Julie's Things ➤ Julie's Apartment",
+                "storageLocationName": "Unboxed",
+                "footprint_id": null,
+                "footprintName": null,
+                "category": 10,
+                "categoryName": "Julie's Apartment",
+                "partUnit": 1,
+                "partUnitName": "Pieces",
+                "partUnitShortName": "pcs",
+                "partUnitDefault": true,
+                "partCondition": "",
+                "attachmentCount": 0,
+                "attachments": {
+                    "response": {
+                        "totalCount": 0,
+                        "data": []
+                    }
+                }
+            },
+            {
+                "name": "Large Wooden Desk",
+                "description": "Custom built",
+                "averagePrice": null,
+                "status": "",
+                "needsReview": false,
+                "createDate": "2013-12-11 11:44:46",
+                "id": 2,
+                "stockLevel": 0,
+                "minStockLevel": 0,
+                "comment": "",
+                "storageLocation_id": 109,
+                "categoryPath": "All the Things ➤ Taylor's Things ➤ Grau's House ➤ Taylor's Room",
+                "storageLocationName": "Unboxed",
+                "footprint_id": null,
+                "footprintName": null,
+                "category": 15,
+                "categoryName": "Taylor's Room",
+                "partUnit": 1,
+                "partUnitName": "Pieces",
+                "partUnitShortName": "pcs",
+                "partUnitDefault": true,
+                "partCondition": "",
+                "attachmentCount": 0,
+                "attachments": {
+                    "response": {
+                        "totalCount": 0,
+                        "data": []
+                    }
+                }
+            }
+        ],
+        "totalCount": "3"
+    },
+    "timing": 0.11476492881775
+}

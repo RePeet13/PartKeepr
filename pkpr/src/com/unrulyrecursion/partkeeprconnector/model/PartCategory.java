@@ -44,6 +44,29 @@ public class PartCategory {
 		return out;
 	}
 	
+	/**
+	 * Recurses through children looking for id, when found, the children are returned.
+	 * @param id Id of node being looked for.
+	 * @return ArrayList<PartCategory> of children if successful, null if not.
+	 */
+	public ArrayList<PartCategory> getChildrenOf(int id) {
+		if (this.id == id) {
+			return (leaf) ? null : children; // return null if no children
+		} else if (leaf) {
+			return null; // null if not this id but is leaf
+		} else {
+			ArrayList<PartCategory> out = null;
+			for (PartCategory pc : children) {
+				out = pc.getChildrenOf(id);
+				if (out != null) {
+					return out;
+				}
+				out = null;
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<PartCategory> flatten() {
 		ArrayList<PartCategory> out = new ArrayList<PartCategory>();
 		out.add(this);

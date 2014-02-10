@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import com.unrulyrecursion.partkeeprconnector.model.PartCategory;
 import com.unrulyrecursion.partkeeprconnector.utilities.GetRestTask;
 import com.unrulyrecursion.partkeeprconnector.utilities.JsonParser;
+import com.unrulyrecursion.partkeeprconnector.utilities.PartCategoryAdapter;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,10 +29,8 @@ import android.widget.TextView;
 
 public class PartCategoryListFragment extends ListFragment {
 
-	private PartCategory pc;
 	private String urlPart = "PartCategory/getAllCategories";
-	private ArrayAdapter<PartCategory> adapter;
-	private ArrayList<PartCategory> flat;
+	private PartCategoryAdapter adapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,9 @@ public class PartCategoryListFragment extends ListFragment {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			adapter.onItemClick(parent, view, position, id);
+			adapter.notifyDataSetChanged();
+			
 				/*
 				
 				Log.d("Position of clicked item", Integer.toString(position));
@@ -87,7 +89,11 @@ public class PartCategoryListFragment extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
-
+	
+	 public void selfDestruct(View view) {
+	     // Kabloey
+	 }
+	 
 	private void refreshList() {
 		Log.d("Part Category Fragment", "Refreshing List");
 		AsyncTask<String, Integer, JSONObject> task = new pcRESTtask().execute("POST", urlPart);
@@ -98,34 +104,17 @@ public class PartCategoryListFragment extends ListFragment {
 
 		@Override
 		protected void onPostExecute(JSONObject result) {
+			Log.d("Part Category LF", "Entering PostExecute");
 			super.onPostExecute(result);
-			
-			pc = JsonParser.parsePartCategories(result);
+			// TODO implement levels and being at the right one
+			PartCategory pc = JsonParser.parsePartCategories(result);
 			if (pc != null) {
-				flat = pc.flatten();
-				for (PartCategory p : flat){
-					//Log.d("List Adapter Input", p.getId() + " " + p.getName());
-				}
-				adapter = new ArrayAdapter<PartCategory>(getActivity(), android.R.layout.simple_list_item_2, android.R.id.text1, flat){
-					@Override
-					public View getView(int position, View convertView, ViewGroup parent) {
-						View view = super.getView(position, convertView, parent);
-					    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-					    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-
-					    text1.setText(flat.get(position).getName());
-					    text2.setText(flat.get(position).getDescription());
-					    
-					    /*
-					    if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-					        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-					        p.setMargins(5+20*flat.get(position).getDepth(), 0, 0, 0);
-					        text1.requestLayout();
-					    }
-					    */
-					    return view;
-					}
-				};
+				ArrayList<PartCategory> top = new ArrayList<PartCategory>();
+				top.add(pc);
+//				for (PartCategory p : current){
+//					Log.d("List Adapter Input", p.getId() + " " + p.getName());
+//				}
+				adapter = new PartCategoryAdapter(getActivity(), android.R.layout.simple_list_item_2, android.R.id.text1, top);
 				setListAdapter(adapter);
 			}
 		}
