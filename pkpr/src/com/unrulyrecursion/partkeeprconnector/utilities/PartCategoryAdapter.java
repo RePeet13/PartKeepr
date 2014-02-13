@@ -26,11 +26,11 @@ public class PartCategoryAdapter extends ArrayAdapter<PartCategory> {
 		up = new PartCategory();
 		up.setName("Up a level");
 		up.setDescription("...");
+		up.setId(-1);
 		
 		current = new ArrayList<PartCategory>();
-		current.add(up);
+		// current.add(up);
 		current.addAll(objects);
-		
 		
 		this.pc = objects.get(0);
 		topLevelPId = pc.getId();
@@ -43,37 +43,74 @@ public class PartCategoryAdapter extends ArrayAdapter<PartCategory> {
 		}
 	}
 	
-	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+	public PartCategory onItemClick (AdapterView<?> parent, View view, int position, long id) {
 		Log.d("Part Category LF", "You clicked position " + position);
+		/*
 		for(int i = 0; i < current.size(); i++){
 			Log.d("Part Category LF", current.get(i).toString() + " pos: " + i);
 		}
-
+		 */
 		List<PartCategory> tmp = new ArrayList<PartCategory>();
+		PartCategory cur = current.get(position);
+		PartCategory par;
+		tmp.add(up);
 		
+		if (position == 0) { // first list item
+			if (cur.getId() == -1) { // "up a level" button
+				par = current.get(position+1).getParent();
+				if (par.getId() == pc.getId()) { // if parent is top level, add its children
+					par = null;
+					tmp.clear();
+					tmp.add(pc);
+				} else {
+					par = par.getParent();
+					tmp.addAll(par.getChildren());
+				}
+			} else { // is top level pc node
+				par = cur;
+				tmp.addAll(pc.getChildren());
+			}
+		} else if (!cur.getLeaf()) { // pc that has children
+			par = cur;
+			tmp.addAll(cur.getChildren());
+		} else { // pc that is a leaf
+			par = cur.getParent();
+			tmp.addAll(par.getChildren());
+		}
+		current.clear();
+		current.addAll(tmp);
+		
+		/*
 		if (position == 0) {
-			if (pc.getId() == current.get(position + 1).getId() || pc.getId() == current.get(position + 1).getParentId()) {
+			if (pc.getId() == current.get(position).getId() || 
+					pc.getId() == current.get(position + 1).getParentId()) {
 				tmp.add(pc);
+				crumbs.clear();
+				crumbs.add(pc.getName());
 			} else {
-				tmp = pc.getChildrenOf(topLevelPId); // TODO could just have each child have a reference to parent...
+				tmp = pc.getChildrenOf(topLevelPId);
+				crumbs.remove(crumbs.size()-1);
 			}
 			if (tmp == null) {
-				return;
+				return null;
 			}
 		} else if (!current.get(position).getLeaf()) {
 			topLevelPId = current.get(position).getParentId();
 			if (current.get(position).getId() == pc.getId()) {
 				topLevelPId = pc.getId();
+			} else {
+				crumbs.add(current.get(position).getName());
 			}
 			tmp.addAll(current.get(position).getChildren());
 		} else {
-			return;
+			return null;
 			// TODO probably go to PartList of this category
 		}
 		current.clear();
 		current.add(up);
 		current.addAll(tmp);
-				
+		*/
+		
 		/*
 		
 		Log.d("Position of clicked item", Integer.toString(position));
@@ -88,6 +125,7 @@ public class PartCategoryAdapter extends ArrayAdapter<PartCategory> {
 		startActivity(in);
 		
 		*/
+		return par;
 	}
 
 	@Override
@@ -113,7 +151,7 @@ public class PartCategoryAdapter extends ArrayAdapter<PartCategory> {
 	    
 	    text1.setText(current.get(position).getName());
 	    text2.setText(current.get(position).getDescription());
-		Log.d("PC Adapter", "View gotten, pos: " + position);
+		Log.d("PC Adapter", "View made, pos: " + position);
 		    
 		    /*
 		    if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {

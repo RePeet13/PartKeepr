@@ -166,10 +166,12 @@ public class JsonParser {
 	public static PartCategory parsePartCategories(JSONObject in) {
 		Log.d("JSON PC Parser","Parsing Part Categories");
 		PartCategory pc = new PartCategory();
+		
 		try {
 			//Log.d("JSON PC Parser", "JSON: " + in.toString());
 			if (in.has(TAG_PC_ID)) {pc.setId(in.getInt(TAG_PC_ID)); Log.d("JSON PC Parser", "id: " + in.getInt(TAG_PC_ID));}
-			if (in.has(TAG_PC_NAME)) {pc.setName(in.getString(TAG_PC_NAME));}
+			if (in.has(TAG_PC_NAME)) {
+				pc.setName(in.getString(TAG_PC_NAME));}
 			if (in.has(TAG_PC_DESCRIPTION)) {pc.setDescription(in.getString(TAG_PC_DESCRIPTION));}
 			if (in.has(TAG_PC_EXPANDED)) {pc.setExpanded(in.getBoolean(TAG_PC_EXPANDED));}
 			if (in.has(TAG_PC_LEAF)) {pc.setLeaf(in.getBoolean(TAG_PC_LEAF));}
@@ -187,11 +189,14 @@ public class JsonParser {
 		} else {
 			try {
 				JSONArray tmp = in.getJSONArray(TAG_PC_CHILDREN);
+				PartCategory tp;
 				for (int i = 0; i < tmp.length(); i++) {
 					Log.d("JSON PC Parser", "Parsing child " + i + " of " + tmp.length());
 					depth++;
 					Log.d("JSON PC Parser", "Setting bearing to 156 and depth to " + depth + ", dive! dive!");
-					pc.addChild(parsePartCategories(tmp.getJSONObject(i)));
+					tp = parsePartCategories(tmp.getJSONObject(i));
+					tp.setParent(pc);
+					pc.addChild(tp);
 					depth--;
 				}
 				Log.d("JSON PC Parser", "Surfacing one level " + depth);
@@ -200,7 +205,6 @@ public class JsonParser {
 				// Need anything here?
 			}
 		}
-		
 		return pc;
 	}
 	

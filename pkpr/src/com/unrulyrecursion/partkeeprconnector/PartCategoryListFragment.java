@@ -1,6 +1,7 @@
 package com.unrulyrecursion.partkeeprconnector;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONObject;
@@ -31,6 +32,8 @@ public class PartCategoryListFragment extends ListFragment {
 
 	private String urlPart = "PartCategory/getAllCategories";
 	private PartCategoryAdapter adapter;
+	private List<String> crumbs;
+	private View mView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,8 +43,8 @@ public class PartCategoryListFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_part_category_list, container, false);
-		return view;
+		mView = inflater.inflate(R.layout.fragment_part_category_list, container, false);
+		return mView;
 	}
 
 	@Override
@@ -50,6 +53,8 @@ public class PartCategoryListFragment extends ListFragment {
 		if(MainActivity.session.isLoggedIn()){
 //			JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
 //			pc = JsonParser.parsePartCategories(jobj);
+
+			crumbs = new ArrayList<String>();
 			refreshList();
 		}
 		ListView lv = getListView();
@@ -57,7 +62,16 @@ public class PartCategoryListFragment extends ListFragment {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			adapter.onItemClick(parent, view, position, id);
+			PartCategory par = adapter.onItemClick(parent, view, position, id);
+
+			crumbs.clear();
+			if (par != null) {
+				crumbs.addAll(par.getCrumbs());
+			} else {
+				crumbs.add("");
+			}
+			setCrumbs();
+			
 			adapter.notifyDataSetChanged();
 			
 				/*
@@ -89,15 +103,21 @@ public class PartCategoryListFragment extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
-	
-	 public void selfDestruct(View view) {
-	     // Kabloey
-	 }
 	 
 	private void refreshList() {
 		Log.d("Part Category Fragment", "Refreshing List");
 		AsyncTask<String, Integer, JSONObject> task = new pcRESTtask().execute("POST", urlPart);
-
+	}
+	
+	private void setCrumbs() {
+		if (crumbs == null || mView == null) {return;}
+		StringBuilder s = new StringBuilder();
+		for (String st : crumbs) {
+			s.append(" > ");
+			s.append(st);
+		}
+		TextView tv = (TextView) mView.findViewById(R.id.crumbs);
+		tv.setText(s.toString());
 	}
 
 	private class pcRESTtask extends GetRestTask {
@@ -105,6 +125,7 @@ public class PartCategoryListFragment extends ListFragment {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 			Log.d("Part Category LF", "Entering PostExecute");
+			crumbs = new ArrayList<String>();
 			super.onPostExecute(result);
 			// TODO implement levels and being at the right one
 			PartCategory pc = JsonParser.parsePartCategories(result);
@@ -114,6 +135,9 @@ public class PartCategoryListFragment extends ListFragment {
 //				for (PartCategory p : current){
 //					Log.d("List Adapter Input", p.getId() + " " + p.getName());
 //				}
+				crumbs.clear();
+				crumbs.add("");
+				setCrumbs();
 				adapter = new PartCategoryAdapter(getActivity(), android.R.layout.simple_list_item_2, android.R.id.text1, top);
 				setListAdapter(adapter);
 			}

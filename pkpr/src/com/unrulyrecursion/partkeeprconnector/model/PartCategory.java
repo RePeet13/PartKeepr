@@ -1,6 +1,7 @@
 package com.unrulyrecursion.partkeeprconnector.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PartCategory {
 
@@ -8,8 +9,10 @@ public class PartCategory {
 	private int id, parentId, depth;
 	private String name, description;
 	private Boolean leaf, expanded;
+	private PartCategory parent;
 	
-	public PartCategory(int id, String name, String description, Boolean leaf, Boolean expanded, int depth) {
+	public PartCategory(int id, String name, String description, 
+			Boolean leaf, Boolean expanded, int depth) {
 		this.setId(id);
 		this.setName(name);
 		this.setDescription(description);
@@ -17,10 +20,12 @@ public class PartCategory {
 		this.setExpanded(expanded);
 		children = new ArrayList<PartCategory>();
 		this.depth = depth;
+		parent = null;
 	}
 	
 	// Empty constructor to aid in JSON parsing
-	public PartCategory() { leaf = false; children = new ArrayList<PartCategory>(); depth = 1; } // initialize to "not leaf mode"
+	public PartCategory() { leaf = false; children = new ArrayList<PartCategory>(); 
+		depth = 1; parent = null;} // initialize to "not leaf mode"
 
 	public void addChild(PartCategory kid) {
 		if (kid != null) {
@@ -65,6 +70,15 @@ public class PartCategory {
 			}
 		}
 		return null;
+	}
+	
+	public List<String> getCrumbs() {
+		List<String> out = new ArrayList<String>();
+		if (parent != null) {
+			out.addAll(parent.getCrumbs());
+		}
+		out.add(name);
+		return out;
 	}
 	
 	public ArrayList<PartCategory> flatten() {
@@ -175,5 +189,13 @@ public class PartCategory {
 
 	public void setDepth(int depth) {
 		this.depth = depth;
+	}
+
+	public PartCategory getParent() {
+		return parent;
+	}
+
+	public void setParent(PartCategory parent) {
+		this.parent = parent;
 	}
 }
