@@ -99,10 +99,13 @@ public class MainActivity extends FragmentActivity {
 				fragment = new PartCategoryListFragment();
 				break;
 			case 1:
-				fragment = new PartListFragment();
+				fragment = new StorageLocationFragment();
 				break;
 			case 2:
-				fragment = new StorageLocationFragment();
+				fragment = new PartListFragment();
+				break;
+			case 3:
+				fragment = new PartDetailFragment();
 				break;
 			}
 			if (!session.isLoggedIn()) {
@@ -130,6 +133,8 @@ public class MainActivity extends FragmentActivity {
 				return pageTitles[1].toUpperCase();
 			case 2:
 				return pageTitles[2].toUpperCase();
+			case 3:
+				return pageTitles[3].toUpperCase();
 			}
 			return null;
 		}
