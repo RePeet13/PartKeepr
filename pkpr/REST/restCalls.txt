@@ -45,6 +45,10 @@ Get Full Image Attachment
 - GET: PartKeepr/frontend/file.php?type=PartAttachment&id=1
 - Content-Type:image/jpeg
 
+Delete User
+- DELETE: PartKeepr/frontend/rest.php/User/6?_dc=1392839223080
+- Request Payload: {"id":6,"username":"Devon","password":""}
+- {"status":"ok","success":true,"response":{"data":null},"timing":0.10772585868835}
 
 Formatted Nice
 

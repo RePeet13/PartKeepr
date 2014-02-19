@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import com.unrulyrecursion.partkeeprconnector.model.Part;
+import com.unrulyrecursion.partkeeprconnector.model.PartCategory;
 import com.unrulyrecursion.partkeeprconnector.utilities.*;
 
 import android.content.Intent;
@@ -33,22 +34,25 @@ public class PartListFragment extends ListFragment {
 	private ArrayList<Part> partsList;
 	private ArrayList<String> partNames;
 	private ArrayAdapter<String> adapter;
-	private FragmentActivity mActivity;
-	private int pcId;
+	private PartCategory pc;
 
+	public static PartListFragment newInstance(PartCategory in) {
+		Log.d("Part List Fragment", "Statically creating a part list fragment");
+		PartListFragment out = new PartListFragment();
+		
+		Bundle args = new Bundle();
+		args.putSerializable("pc", in);
+		out.setArguments(args);
+		
+		return out;
+	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 
 		super.onActivityCreated(savedInstanceState);
 		
 		// Adapted from Fragments Demo on Android Dev site
-		mActivity = this.getActivity();
-		Intent i = mActivity.getIntent();
-
-		if (i != null && i.hasExtra("PartCategoryId")) {
-			pcId = i.getIntExtra("PartCategoryId", -1);
-			if (pcId <= 0) { urlPart = buildUrl(pcId); } // TODO find out if pcID can be 0...
-		}
 
 		// Check to see if we have a frame in which to embed the details
 		// fragment directly in the containing UI.
@@ -69,9 +73,9 @@ public class PartListFragment extends ListFragment {
 		}
 	}
 
-	private String buildUrl(int pcId2) {
+	private String buildUrl() {
 		// Limitation is that query is limited to 50 parts (but pagination is easy to figure out how to do)
-		return "Part?_dc=1392816881375&category="+pcId+"&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D";
+		return "Part?_dc=1392816881375&category="+pc.getId()+"&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D";
 		
 		/* Part?_dc=1392816881375&category=10&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D
 		 * This is a webapp generated url with the following properties
@@ -149,6 +153,8 @@ public class PartListFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		pc = (PartCategory) getArguments().getSerializable("pc");
+		
 		return inflater.inflate(R.layout.fragment_part_list, container, false);
 	}
 
@@ -162,6 +168,7 @@ public class PartListFragment extends ListFragment {
 
 	public void refreshList() {
 		Log.d("Part List", "Refreshing List");
+		urlPart = buildUrl();
 		AsyncTask<String, Integer, JSONObject> task = new partTask().execute(
 				"GET", urlPart);
 	}

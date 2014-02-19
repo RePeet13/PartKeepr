@@ -66,9 +66,12 @@ public class PartCategoryListFragment extends ListFragment {
 					int pos, long arg3) {
 				if (pos > 0) { // TODO figure out how to exclude "up a levels"
 					Log.d("PC List Fragment", "Item " + pos + " has been long clicked");
-					int pcIndex = adapter.getSelected(pos);
+					PartCategory pc = adapter.getSelected(pos);
 		            Intent intent = new Intent();
-		            intent.putExtra("PartCategoryId", pcIndex);
+		            Bundle b = new Bundle();
+		            
+		            b.putSerializable("pc", pc);
+		            intent.putExtras(b);
 		            intent.setClass(getActivity(), PartListActivity.class);
 		            Log.d("Part Category Fragment", "Sending intent to PartListActivity");
 		            startActivity(intent);

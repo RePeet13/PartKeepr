@@ -128,11 +128,11 @@ public class PartCategoryAdapter extends ArrayAdapter<PartCategory> {
 		return par;
 	}
 	
-	public int getSelected(int index) {
+	public PartCategory getSelected(int index) {
 		// TODO check for "up a level"s (also in the fragment)
 		PartCategory out = current.get(index);
 		Log.d("PC Adapter", index + " was selected, PCID: " + out.getId() + " that has " + out.getChildren().size() + " children");
-		return out.getId();
+		return out;
 	}
 
 	@Override

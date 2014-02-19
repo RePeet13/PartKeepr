@@ -2,6 +2,7 @@ package com.unrulyrecursion.partkeeprconnector;
 
 import com.unrulyrecursion.partkeeprconnector.model.Part;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -28,10 +29,17 @@ public class PartDetailActivity extends FragmentActivity {
 		*/
         if (savedInstanceState == null) {
             // During initial setup, plug in the details fragment.
-            PartDetailFragment details = new PartDetailFragment();
-            details.setArguments(getIntent().getExtras());
+        	Intent i = getIntent();
+        	Bundle b = i.getExtras();
+        	
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
+            PartDetailFragment details = new PartDetailFragment();
+            
+        	if (b != null) {
+	            details = PartDetailFragment.newInstance((Part)i.getExtras().getSerializable("part"));
+        	}
+        	
             ft.replace(R.id.partDetailFragment, details);
             Log.d("Part Detail Activity", "Adding Fragment");
             ft.commit();
