@@ -32,7 +32,7 @@ partkeepr.jsfiles
 # built application files
 *.apk
 *.ap_
-!dist/*
+!/pkpr/dist/*
 
 # files for the dex VM
 *.dex
