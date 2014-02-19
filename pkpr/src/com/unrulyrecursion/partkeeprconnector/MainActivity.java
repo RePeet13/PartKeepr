@@ -101,12 +101,6 @@ public class MainActivity extends FragmentActivity {
 			case 1:
 				fragment = new StorageLocationFragment();
 				break;
-			case 2:
-				fragment = new PartListFragment();
-				break;
-			case 3:
-				fragment = new PartDetailFragment();
-				break;
 			}
 			if (!session.isLoggedIn()) {
 				return new NoServerFragment();
@@ -117,8 +111,8 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public int getCount() {
-			// Show 3 total pages.
-			return 3;
+			// Show 2 total pages.
+			return 2;
 		}
 
 		@Override
@@ -132,9 +126,6 @@ public class MainActivity extends FragmentActivity {
 			case 1:
 				return pageTitles[1].toUpperCase();
 			case 2:
-				return pageTitles[2].toUpperCase();
-			case 3:
-				return pageTitles[3].toUpperCase();
 			}
 			return null;
 		}

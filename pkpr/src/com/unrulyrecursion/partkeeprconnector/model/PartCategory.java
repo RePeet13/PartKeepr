@@ -1,9 +1,10 @@
 package com.unrulyrecursion.partkeeprconnector.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartCategory {
+public class PartCategory implements Serializable {
 
 	private ArrayList<PartCategory> children;
 	private int id, parentId, depth;

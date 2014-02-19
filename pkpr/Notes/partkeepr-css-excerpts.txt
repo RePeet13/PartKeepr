@@ -1,0 +1,20 @@
+PartKeepr css excerpts
+
+.partkeepr-logo {
+	color: white !important;
+	font-weight: bold;
+	font-style: italic;
+	font-family: 'Ubuntu', sans-serif !important;
+	text-shadow: 0px -1px 0px #374683;
+	font-size: 24px !important;
+}
+
+
+menu bar (background-image: -webkit-linear-gradient(top, #2aaad3,#2067a3);)
+
+
+add session clicks to login activity (including closed-app-saving of id and creation date)
+have ball with freshness
+have menu item to enable or disable this behavior (basically a "secure mode")
+make textviews change to edittext's one click, and save
+consider crumbs 

@@ -2,6 +2,7 @@ Known REST Calls
 =================
 
 TODO - Do these all in RESTClient and save the calls in REST folder
+_dc is an anti-caching measure that is ignored by the backend, and usually set to current time
 
 Function
 -URL
@@ -29,11 +30,20 @@ Get Storage Locations
 
 Get Parts
 - GET: Part?_dc=1387642414788&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D
-- {"status":"ok","success":true,"response":{"data":[{"name":"Queen Box Spring","description":"","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:46:04","id":4,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Queen Mattress","description":"Euro Top","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:45:48","id":3,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Large Wooden Desk","description":"Custom built","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:44:46","id":2,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Taylor's Things \u27a4 Grau's House \u27a4 Taylor's Room","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":15,"categoryName":"Taylor's Room","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}}],"totalCount":"3"},"timing":0.11476492881775}
+- {"status":"ok","success":true,"response":{"data":[{"name":"Queen Box Spring","description":"","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:46:04","id":4,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Queen Mattress","description":"Euro Top","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:45:48","id":3,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Large Wooden Desk","description":"Custom built","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:44:46","id":2,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Taylor's Things \u27a4 Grau's House \u27a4 Taylor's Room","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":15,"categoryName":"Taylor's Room","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":1,"attachments":{"response":{"totalCount":1,"data":[{"id":1,"part_id":2,"originalFilename":"IMG_20130315_142307.jpg","mimetype":"image\/jpeg","extension":"jpeg","size":1870569,"description":"","image":true}]}}}],"totalCount":"3"},"timing":0.14128398895264}
 
-Get Parts specific category (Julie's Things)
-- GET: Part?_dc=1391660225307&category=3&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D
-- "status":"ok","success":true,"response":{"data":[{"name":"Queen Box Spring","description":"","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:46:04","id":4,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Queen Mattress","description":"Euro Top","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:45:48","id":3,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}}],"totalCount":"2"},"timing":0.24855589866638}
+Get Parts specific category (Julie's Apartment)
+- GET: PartKeepr/frontend/rest.php/Part?_dc=1392816881375&category=10&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D
+- Query Params: _dc:1392816881375 category:10 page:1 start:0 limit:50 group:[{"property":"categoryPath","direction":"ASC"}] sort:[{"property":"categoryPath","direction":"ASC"},{"property":"name","direction":"ASC"}]
+- {"status":"ok","success":true,"response":{"data":[{"name":"Queen Box Spring","description":"","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:46:04","id":4,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}},{"name":"Queen Mattress","description":"Euro Top","averagePrice":null,"status":"","needsReview":false,"createDate":"2013-12-11 11:45:48","id":3,"stockLevel":0,"minStockLevel":0,"comment":"","storageLocation_id":109,"categoryPath":"All the Things \u27a4 Julie's Things \u27a4 Julie's Apartment","storageLocationName":"Unboxed","footprint_id":null,"footprintName":null,"category":10,"categoryName":"Julie's Apartment","partUnit":1,"partUnitName":"Pieces","partUnitShortName":"pcs","partUnitDefault":true,"partCondition":"","attachmentCount":0,"attachments":{"response":{"totalCount":0,"data":[]}}}],"totalCount":"2"},"timing":0.16230416297913}
+
+Get Part Image Attachment
+- GET: PartKeepr/frontend/image.php?type=partattachment&m=fitexact&w=200&h=150&id=1
+- Content-Type:image/png
+
+Get Full Image Attachment
+- GET: PartKeepr/frontend/file.php?type=PartAttachment&id=1
+- Content-Type:image/jpeg
 
 
 Formatted Nice
@@ -104,7 +114,6 @@ Formatted Nice
 					"expanded":true}],
 			"expanded":true}],
 	"expanded":true}
-
 
 {
     "status": "ok",
@@ -196,16 +205,27 @@ Formatted Nice
                 "partUnitShortName": "pcs",
                 "partUnitDefault": true,
                 "partCondition": "",
-                "attachmentCount": 0,
+                "attachmentCount": 1,
                 "attachments": {
                     "response": {
-                        "totalCount": 0,
-                        "data": []
+                        "totalCount": 1,
+                        "data": [
+                            {
+                                "id": 1,
+                                "part_id": 2,
+                                "originalFilename": "IMG_20130315_142307.jpg",
+                                "mimetype": "image/jpeg",
+                                "extension": "jpeg",
+                                "size": 1870569,
+                                "description": "",
+                                "image": true
+                            }
+                        ]
                     }
                 }
             }
         ],
         "totalCount": "3"
     },
-    "timing": 0.11476492881775
+    "timing": 0.14128398895264
 }

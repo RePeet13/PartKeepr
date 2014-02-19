@@ -236,6 +236,8 @@ public class JsonParser {
 				if (otmp.has(TAG_P_STORAGE_LOCATION_ID)) {p.setStorageLocId(otmp.getInt(TAG_P_STORAGE_LOCATION_ID));}
 				if (otmp.has(TAG_P_STORAGE_LOCATION_NAME)) {p.setStorageLocName(otmp.getString(TAG_P_STORAGE_LOCATION_NAME));}
 				if (otmp.has(TAG_P_ATTACHMENT_COUNT)) {p.setAttachmentCount(otmp.getInt(TAG_P_ATTACHMENT_COUNT));}
+				if (otmp.has(TAG_P_CATEGORY_PATH)) {p.setCategoryPath(otmp.getString(TAG_P_CATEGORY_PATH));}
+				if (otmp.has(TAG_P_COMMENT)) {p.setComment(otmp.getString(TAG_P_COMMENT));}
 				Log.d("JSON P Parser", "Adding part to array");
 				parts.add(p);
 			}

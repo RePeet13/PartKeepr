@@ -1,8 +1,10 @@
 package com.unrulyrecursion.partkeeprconnector.model;
 
-public class Part {
+import java.io.Serializable;
 
-	private String name, description, status, createDate, pcName, storageLocName; // TODO better format for date?
+public class Part implements Serializable {
+
+	private String name, description, status, categoryPath, createDate, comment, pcName, storageLocName; // TODO better format for date?
 	private int id, categoryId, storageLocId, attachmentCount;
 	private boolean needsReview;
 	
@@ -31,24 +33,40 @@ public class Part {
 	private static final String TAG_P_ATTACHMENTS = "attachments";
 */
 	
-	public Part (String name, String desc, String status, String createDate, 
-			String pcName, String storageLocName, int id, int categoryId, 
+	public Part (String name, String desc, String status, String createDate, String comment, 
+			String pcName, String storageLocName, String categoryPath, int id, int categoryId, 
 			int storageLocId, int attachmentCount, Boolean needsReview) {
 		this.name = name;
-		this.setDescription(desc);
+		this.description = desc;
 		this.status = status;
 		this.createDate = createDate;
 		this.pcName = pcName;
 		this.id = id;
 		this.categoryId = categoryId;
+		this.comment = comment;
 		this.storageLocId = storageLocId;
-		this.setStorageLocName(storageLocName);
+		this.storageLocName = storageLocName;
+		this.setCategoryPath(categoryPath);
 		this.attachmentCount = attachmentCount;
 		this.needsReview = needsReview;
 	}
 
-	// Empty constructor to aid in JSON parsing
-	public Part () { }
+	// Constructor to aid in JSON parsing
+	public Part () {
+		this.name = "";
+		this.description = "";
+		this.status = "";
+		this.createDate = "";
+		this.pcName = "";
+		this.id = 0;
+		this.categoryId = 0;
+		this.comment = "";
+		this.storageLocId = 0;
+		this.storageLocName = "";
+		this.setCategoryPath("");
+		this.attachmentCount = 0;
+		this.needsReview = false;
+	}
 	
 	@Override
 	public String toString() {
@@ -140,5 +158,21 @@ public class Part {
 
 	public void setStorageLocName(String storageLocName) {
 		this.storageLocName = storageLocName;
+	}
+
+	public String getCategoryPath() {
+		return categoryPath;
+	}
+
+	public void setCategoryPath(String categoryPath) {
+		this.categoryPath = categoryPath;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

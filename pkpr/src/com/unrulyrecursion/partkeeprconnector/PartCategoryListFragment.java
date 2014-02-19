@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -58,6 +59,28 @@ public class PartCategoryListFragment extends ListFragment {
 			refreshList();
 		}
 		ListView lv = getListView();
+		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int pos, long arg3) {
+				if (pos > 0) { // TODO figure out how to exclude "up a levels"
+					Log.d("PC List Fragment", "Item " + pos + " has been long clicked");
+					int pcIndex = adapter.getSelected(pos);
+		            Intent intent = new Intent();
+		            intent.putExtra("PartCategoryId", pcIndex);
+		            intent.setClass(getActivity(), PartListActivity.class);
+		            Log.d("Part Category Fragment", "Sending intent to PartListActivity");
+		            startActivity(intent);
+			        
+		            return true;
+				}
+				return false;
+			}
+			
+			
+		});
+		
 		lv.setOnItemClickListener(new OnItemClickListener() { // Goto the details of the event
 
 		@Override
@@ -91,6 +114,7 @@ public class PartCategoryListFragment extends ListFragment {
 			}
 		});
 }
+	
 	
 	@Override
 	public void onPause() {

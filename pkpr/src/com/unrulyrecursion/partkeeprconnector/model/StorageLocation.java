@@ -1,6 +1,8 @@
 package com.unrulyrecursion.partkeeprconnector.model;
 
-public class StorageLocation {
+import java.io.Serializable;
+
+public class StorageLocation implements Serializable {
 
 	private int id;
 	private String name;
