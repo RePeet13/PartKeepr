@@ -3,7 +3,6 @@ package com.unrulyrecursion.partkeeprconnector;
 import java.util.Locale;
 import com.unrulyrecursion.partkeeprconnector.utilities.*;
 import android.app.ActionBar;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -12,12 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
 
@@ -65,6 +61,13 @@ public class MainActivity extends FragmentActivity {
 		// operations
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
+		
+		// From Stack Overflow
+		// src - http://stackoverflow.com/questions/8607707/how-to-set-a-custom-font-in-the-actionbar-title
+
+		// Update the action bar title with the TypefaceSpan instance
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(((PartKeeprConnectorApp)getApplication()).getActionBarTitle());
 	}
 
 	@Override

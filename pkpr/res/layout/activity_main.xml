@@ -10,7 +10,8 @@
     This title strip will display the currently visible page title, as well as the page
     titles for adjacent pages.
     -->
-
+    
+	<!-- To change title strip font <com.unrulyrecursion.partkeeprconnector.utilities.PkprPagerTitle -->
     <android.support.v4.view.PagerTitleStrip
         android:id="@+id/pager_title_strip"
         android:layout_width="match_parent"

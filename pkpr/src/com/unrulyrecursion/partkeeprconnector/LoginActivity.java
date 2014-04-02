@@ -11,6 +11,7 @@ import com.unrulyrecursion.partkeeprconnector.model.DBSchema;
 import com.unrulyrecursion.partkeeprconnector.utilities.SavedServers;
 import com.unrulyrecursion.partkeeprconnector.utilities.SessionManagement;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +35,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class LoginActivity extends Activity implements OnItemSelectedListener {
-	
+
 	ArrayList<ArrayList<String>> spinnerStuff;
 
 	private SessionManagement session;
@@ -50,31 +51,44 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		// From Stack Overflow
+		// src -
+		// http://stackoverflow.com/questions/8607707/how-to-set-a-custom-font-in-the-actionbar-title
+
+		// Update the action bar title with the TypefaceSpan instance
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(((PartKeeprConnectorApp) getApplication())
+				.getActionBarTitle());
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		dbh = new DBHelper(getBaseContext());
 		Cursor c = dbh.getSavedServers();
-//		String[] from = new String[] {DBSchema.ServerCreds.COLUMN_NAME_BASE_URL, DBSchema.ServerCreds.COLUMN_NAME_USERNAME};
-//		int[] to = new int[] {R.id.server1, R.id.server2};
-//		
-//		sAdapter = new SimpleCursorAdapter(getBaseContext(), R.id.serverList, c, from, to, 0);
-		sAdapter = new ServerCursorAdapter(getBaseContext(), R.layout.entry_server_session, c, 0);
+		// String[] from = new String[]
+		// {DBSchema.ServerCreds.COLUMN_NAME_BASE_URL,
+		// DBSchema.ServerCreds.COLUMN_NAME_USERNAME};
+		// int[] to = new int[] {R.id.server1, R.id.server2};
+		//
+		// sAdapter = new SimpleCursorAdapter(getBaseContext(), R.id.serverList,
+		// c, from, to, 0);
+		sAdapter = new ServerCursorAdapter(getBaseContext(),
+				R.layout.entry_server_session, c, 0);
 		ListView lv = (ListView) findViewById(R.id.serverList);
 		lv.setAdapter(sAdapter);
-//		ImageView iv = (ImageView) parent.findViewById(R.id.serverFresh);
-//		iv.setImageDrawable(drawable)
+		// ImageView iv = (ImageView) parent.findViewById(R.id.serverFresh);
+		// iv.setImageDrawable(drawable)
 
 		Resources res = getResources();
-		
-//		dbh = new DBHelper(getBaseContext());
-//		SQLiteDatabase db = dbh.getReadableDatabase(); // TODO might need to be in async task
-//		spinnerStuff = dbh.getSavedServers(db);
-		
-//		ListView lv = (ListView) findViewById(R.id.serverList);
+
+		// dbh = new DBHelper(getBaseContext());
+		// SQLiteDatabase db = dbh.getReadableDatabase(); // TODO might need to
+		// be in async task
+		// spinnerStuff = dbh.getSavedServers(db);
+
+		// ListView lv = (ListView) findViewById(R.id.serverList);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -82,26 +96,29 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				// TODO initiate login to server
-				// will need to handle non-successful (re-enter password, auto fill user)
+				// will need to handle non-successful (re-enter password, auto
+				// fill user)
 			}
-		
+
 		});
 		String[] serverList = res.getStringArray(R.array.serverList);
-		
+
 		Spinner spinner = (Spinner) findViewById(R.id.serverSpinner);
-		
+
 		spinner.setOnItemSelectedListener(this);
-//		String[] SArr = (String[])spinnerStuff.get(0).toArray();
-//		if (spinnerStuff.get(0).size() == 0) {
-//			SArr = new String[2];
-//			SArr[0] = "No Servers Saved"; // TODO Probably should be a resource
-//		}
-		
-		ArrayAdapter<CharSequence> aa = new ArrayAdapter<CharSequence>(getBaseContext(), android.R.layout.simple_spinner_item, serverList);
+		// String[] SArr = (String[])spinnerStuff.get(0).toArray();
+		// if (spinnerStuff.get(0).size() == 0) {
+		// SArr = new String[2];
+		// SArr[0] = "No Servers Saved"; // TODO Probably should be a resource
+		// }
+
+		ArrayAdapter<CharSequence> aa = new ArrayAdapter<CharSequence>(
+				getBaseContext(), android.R.layout.simple_spinner_item,
+				serverList);
 		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(aa);
-		
-//		db.close();
+
+		// db.close();
 	}
 
 	public void setUrl(String url) { // TODO call from url chooser
@@ -110,22 +127,25 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 
 	public void initiateLogin(View view) {
 		Log.d("Login", "Initiating Login");
-		
+
 		// TODO check for connectivity and break/notify if there isnt any
-		
-		String user = ((EditText) findViewById(R.id.loginUser)).getText().toString();
-		String pass = ((EditText) findViewById(R.id.loginPass)).getText().toString();
+
+		String user = ((EditText) findViewById(R.id.loginUser)).getText()
+				.toString();
+		String pass = ((EditText) findViewById(R.id.loginPass)).getText()
+				.toString();
 		String passHash = "null";
-		
-		String url = ((EditText) findViewById(R.id.serverText)).getText().toString();
-		if (url==null || url.compareToIgnoreCase("")==0){
+
+		String url = ((EditText) findViewById(R.id.serverText)).getText()
+				.toString();
+		if (url == null || url.compareToIgnoreCase("") == 0) {
 			url = spinSelect;
 		}
-		
+
 		session = new SessionManagement(this, url);
 
 		try {
-			Log.d("Initiating Login","Trying Pass Hash");
+			Log.d("Initiating Login", "Trying Pass Hash");
 			MessageDigest digest = java.security.MessageDigest
 					.getInstance("MD5");
 			digest.update(pass.getBytes());
@@ -148,10 +168,11 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 			e.printStackTrace();
 		}
 		if (passHash.compareTo("null") != 0) {
-			Log.d("Initiating Login","Have pass hash, handing off to session");
+			Log.d("Initiating Login", "Have pass hash, handing off to session");
 			TextView tv = (TextView) findViewById(R.id.loginResponse);
 			tv.setText(R.string.connecting);
-			AsyncTask<String, Void, Boolean> login = new LoginTask().execute(user, passHash, null);
+			AsyncTask<String, Void, Boolean> login = new LoginTask().execute(
+					user, passHash, null);
 			Boolean response = false;
 			try {
 				response = login.get();
@@ -165,38 +186,34 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 				e.printStackTrace();
 			}
 			if (response) {
-				// TODO Save details for list // TODO delete saved servers in favor of db
+				// TODO Save details for list // TODO delete saved servers in
+				// favor of db
 				/*
-				if (ss != null) {
-					ss.accessServer(url, user);
-				} else { // likely is not a shared pref file yet, make one
-					ss = new SavedServers();
-					ss.addServer(url, user, session.getSessId());
-				}
-				*/
-				
+				 * if (ss != null) { ss.accessServer(url, user); } else { //
+				 * likely is not a shared pref file yet, make one ss = new
+				 * SavedServers(); ss.addServer(url, user, session.getSessId());
+				 * }
+				 */
+
 				Log.d("Login Activity", "Calling DBHelper for successful login");
-				dbh.accessedServer(getBaseContext(), url, user, session.getSessId());
-				
-				/* TODO Remove this (using db now
-				ObjectOutputStream os;
-				try {
-					os = new ObjectOutputStream(getBaseContext().openFileOutput(FILE_NAME, 0));
-					os.writeObject(ss);
-					os.close();
-					Log.d("Login Activity", "Wrote out saved servers file");
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				*/
-				
+				dbh.accessedServer(getBaseContext(), url, user,
+						session.getSessId());
+
+				/*
+				 * TODO Remove this (using db now ObjectOutputStream os; try {
+				 * os = new
+				 * ObjectOutputStream(getBaseContext().openFileOutput(FILE_NAME,
+				 * 0)); os.writeObject(ss); os.close(); Log.d("Login Activity",
+				 * "Wrote out saved servers file"); } catch
+				 * (FileNotFoundException e) { // TODO Auto-generated catch
+				 * block e.printStackTrace(); } catch (IOException e) { // TODO
+				 * Auto-generated catch block e.printStackTrace(); }
+				 */
+
 				// Open new Activity
 				tv.setText(R.string.success);
-				Intent i = new Intent(getApplicationContext(), MainActivity.class);
+				Intent i = new Intent(getApplicationContext(),
+						MainActivity.class);
 				i.putExtra("USERNAME", user);
 				i.putExtra("SESSION_ID", session.getSessId());
 				i.putExtra("BASE_URL", session.base_url);
@@ -219,10 +236,10 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-		spinSelect = null;		
+		spinSelect = null;
 		Log.d("Spinner Unselected", "selected: " + spinSelect);
 	}
-	
+
 	public void SavedServerClick(View v) {
 		TextView tUrl = (TextView) v.findViewById(R.id.server1);
 		TextView tName = (TextView) v.findViewById(R.id.server2);
@@ -231,14 +248,15 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 		String name = tName.getText().toString();
 		String sid = tSid.getText().toString();
 
-		Log.d("Login Activity", "Saved server selected: " + name + " - " + sid + " - " + url);
-		
+		Log.d("Login Activity", "Saved server selected: " + name + " - " + sid
+				+ " - " + url);
+
 		session = new SessionManagement(this, url);
-		
+
 		session.createLoginSession(name, sid);
 		Map<String, String> m = session.getStatus();
 		Log.d("Login Activity", "Session status returned");
-		
+
 		if (m.isEmpty()) {
 			// TODO Toast a failure and don't go anywhere or login
 		} else {
@@ -249,7 +267,7 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 			PartKeeprConnectorApp pk = (PartKeeprConnectorApp) getApplication();
 			pk.setmSession(session);
 			pk.setBase_url(url);
-			
+
 			// Open new Activity
 			Intent i = new Intent(getApplicationContext(), MainActivity.class);
 			i.putExtra("USERNAME", name);
@@ -258,15 +276,15 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 			startActivity(i);
 		}
 	}
-	
+
 	private class LoginTask extends AsyncTask<String, Void, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(String... inputs) {
 			return session.login(inputs[0], inputs[1], inputs[2]);
-		}	
+		}
 	}
-	
+
 	private class ServerCursorAdapter extends ResourceCursorAdapter {
 
 		public ServerCursorAdapter(Context context, int layout, Cursor c,
@@ -275,20 +293,29 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 		}
 
 		@Override
-		public void bindView(View v, Context context, Cursor cursor) { // TODO log these out, add button listeners
+		public void bindView(View v, Context context, Cursor cursor) { // TODO
+																		// log
+																		// these
+																		// out,
+																		// add
+																		// button
+																		// listeners
 			Log.d("ServerCursorAdapter", "Building new server entry");
 			TextView url = (TextView) v.findViewById(R.id.server1);
-	        url.setText(cursor.getString(cursor.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_BASE_URL)));
-	        Log.d("ServerCursorAdapter", "Setting url to: " + url.getText());
+			url.setText(cursor.getString(cursor
+					.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_BASE_URL)));
+			Log.d("ServerCursorAdapter", "Setting url to: " + url.getText());
 			TextView name = (TextView) v.findViewById(R.id.server2);
-	        name.setText(cursor.getString(cursor.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_USERNAME)));
-	        Log.d("ServerCursorAdapter", "Setting name to: " + name.getText());
+			name.setText(cursor.getString(cursor
+					.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_USERNAME)));
+			Log.d("ServerCursorAdapter", "Setting name to: " + name.getText());
 			TextView sid = (TextView) v.findViewById(R.id.serverSID);
-	        sid.setText(cursor.getString(cursor.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_SESSION_ID)));
-	        Log.d("ServerCursorAdapter", "Setting sid to: " + sid.getText());
-	        ImageView iv = (ImageView) v.findViewById(R.id.serverFresh);
-	        // TODO add freshness check here 
-	        iv.setImageResource(R.drawable.ball_green);
+			sid.setText(cursor.getString(cursor
+					.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_SESSION_ID)));
+			Log.d("ServerCursorAdapter", "Setting sid to: " + sid.getText());
+			ImageView iv = (ImageView) v.findViewById(R.id.serverFresh);
+			// TODO add freshness check here
+			iv.setImageResource(R.drawable.ball_green);
 		}
 
 	}
