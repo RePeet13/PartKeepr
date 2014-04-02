@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip"
+    android:orientation="horizontal"
+    android:onClick="SavedServerClick" >
+
+    <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight=".9"
+            android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/server1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="None Yet" 
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true" />
+        
+        <TextView
+            android:id="@+id/server2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/serverFresh"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight=".1"
+        android:src="@drawable/ball_blue"
+        android:contentDescription="@+string/description_server_balls" />
+    
+    <TextView android:id="@+id/serverSID"
+        android:layout_width="0dip"
+        android:layout_height="0dip"
+        android:visibility="invisible" />
+    
+</LinearLayout>

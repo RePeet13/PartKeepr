@@ -35,6 +35,7 @@ public class PartCategoryListFragment extends ListFragment {
 	private PartCategoryAdapter adapter;
 	private List<String> crumbs;
 	private View mView;
+	private PartCategory pc;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -133,7 +134,10 @@ public class PartCategoryListFragment extends ListFragment {
 	 
 	private void refreshList() {
 		Log.d("Part Category Fragment", "Refreshing List");
-		AsyncTask<String, Integer, JSONObject> task = new pcRESTtask().execute("POST", urlPart);
+		PartKeeprConnectorApp pa = (PartKeeprConnectorApp) (getActivity().getApplication());
+		Log.d("PC RefreshList", pa.getBase_url());
+		AsyncTask<String, Integer, JSONObject> task = new pcRESTtask().execute("POST", pa.getBase_url(), urlPart, pa.getmSession().getSessId());
+		// TODO implement timeouts to allow a 'refresh manually' to happen
 	}
 	
 	private void setCrumbs() {
@@ -150,12 +154,20 @@ public class PartCategoryListFragment extends ListFragment {
 	private class pcRESTtask extends GetRestTask {
 
 		@Override
-		protected void onPostExecute(JSONObject result) {
-			Log.d("Part Category LF", "Entering PostExecute");
+		protected JSONObject doInBackground(String... strings) {
+//			Log.d("Part Category LF", "Entering doInBackground");
+			JSONObject result = super.doInBackground(strings);
 			crumbs = new ArrayList<String>();
-			super.onPostExecute(result);
 			// TODO implement levels and being at the right one
-			PartCategory pc = JsonParser.parsePartCategories(result);
+			pc = JsonParser.parsePartCategories(result);
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			super.onPostExecute(result);
+
 			if (pc != null) {
 				ArrayList<PartCategory> top = new ArrayList<PartCategory>();
 				top.add(pc);
@@ -169,5 +181,6 @@ public class PartCategoryListFragment extends ListFragment {
 				setListAdapter(adapter);
 			}
 		}
+		
 	}
 }

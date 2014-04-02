@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.unrulyrecursion.partkeeprconnector.MainActivity;
+import com.unrulyrecursion.partkeeprconnector.PartKeeprConnectorApp;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,23 +21,28 @@ import android.util.Log;
 public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 
 		private String[] urlParts;
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+		
 		@Override
 		protected JSONObject doInBackground(String... strings) {
-			// first is http method, rest are things to query
+			/*
+			 * Strings
+			 * [0] Http method
+			 * [1] base_url
+			 * [2] url_part
+			 * [3] sessionid
+			 */
+			
+			// TODO should check whether this should be in retained fragment
 			int count = strings.length;
 			urlParts = strings;
-			/*
-			for (int i = 1; i < count; i++) {
-				try {
-					// TODO implement multiple requests if wanted
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			*/
 			
-			String url = MainActivity.session.base_url + urlParts[1];
+			String url = urlParts[1] + urlParts[2];
 			Log.d("JSON Task", "Building URL: " + url);
 			
 			HttpClient client = new DefaultHttpClient();
@@ -47,7 +53,8 @@ public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 				request = new HttpGet(url);
 			}
 			String[] status = new String[5];
-			String sid = MainActivity.session.getSessId();
+//			String sid = MainActivity.session.getSessId();
+			String sid = urlParts[3];
 
 			if (sid.compareToIgnoreCase("none")!=0) {
 //				request.setHeader("Cookie", "PHPSESSID=" + sid);
@@ -56,7 +63,9 @@ public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 			try {
 				Log.d("JSON Task","Getting response from server");
 				JSONObject result = new JSONObject(EntityUtils.toString(client.execute(request).getEntity()));
-
+				
+				// TODO Add progress update stuff
+				
 				//Log.d("result", result.toString());
 				Log.d("JSON Task","Checking server response");
 				status[0] = result.getString(JsonParser.TAG_STATUS);
@@ -71,14 +80,14 @@ public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 					Log.d("JSON Task", "response not ok: " + status[0]);
 				}
 				
-				if (status[1].compareToIgnoreCase("true")==0) {
+				if (status[1].compareToIgnoreCase("true") == 0) {
 					Log.d("JSON Task", "response success true");
 				} else {
 					// TODO actually error somehow here (toast notification or so)
 					// TODO should print exception out and stop response check
 				}
 				JSONObject response = result.getJSONObject(JsonParser.TAG_RESPONSE);
-				// Log.d("Get REST Task", response.toString());
+				Log.d("Get REST Task", response.toString());
 
 				return response;
 				
@@ -91,20 +100,10 @@ public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 				Log.w("JSON Task", e.getLocalizedMessage());
 				e.printStackTrace();
 			}
+
+			
+			// Log.d("Get Rest Task", "Didn't return the response");
 			
 			return null;
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... progress) {
-			// TODO Auto-generated method stub
-			super.onProgressUpdate(progress);
-		}
-
-		@Override
-		protected void onPostExecute(JSONObject result) {
-			super.onPostExecute(result);
-			// TODO Auto-generated method stub
-//	        showDialog("Downloaded " + result + " bytes"); // Downloaded result results
 		}
 }

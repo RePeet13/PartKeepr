@@ -27,7 +27,6 @@ public class PartListFragment extends ListFragment {
 	int mCurCheckPosition = 0;
 
 	// url suffix
-	// private static String urlPart = "getParts"; // TODO figure out real url
 	private static String urlPart = "Part?_dc=1387642414788&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D";
 
 	private JSONObject parts = null;
@@ -81,7 +80,7 @@ public class PartListFragment extends ListFragment {
 		 * This is a webapp generated url with the following properties
 		 * (the url is form encoded)
 		 * Query Params: 
-		 * _dc:1392816881375 
+		 * _dc:1392816881375 //dc=don't cache, just a time in millis
 		 * category:10 
 		 * page:1 
 		 * start:0 
@@ -169,17 +168,23 @@ public class PartListFragment extends ListFragment {
 	public void refreshList() {
 		Log.d("Part List", "Refreshing List");
 		urlPart = buildUrl();
-		AsyncTask<String, Integer, JSONObject> task = new partTask().execute(
-				"GET", urlPart);
+		PartKeeprConnectorApp pa = (PartKeeprConnectorApp)(getActivity().getApplication());
+		AsyncTask<String, Integer, JSONObject> task = new partTask().execute("GET", pa.getBase_url(), urlPart, pa.getmSession().getSessId());
 	}
 
 	private class partTask extends GetRestTask {
 
 		@Override
+		protected JSONObject doInBackground(String... strings) {
+			JSONObject result = super.doInBackground(strings);
+			partsList = JsonParser.parsePartsList(result);
+			return result;
+		}
+
+		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
 
-			partsList = JsonParser.parsePartsList(result);
 			if (partsList != null) {
 				partNames = new ArrayList<String>();
 				for (Part p : partsList) {

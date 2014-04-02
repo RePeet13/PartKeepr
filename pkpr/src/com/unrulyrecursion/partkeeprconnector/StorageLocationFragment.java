@@ -39,12 +39,6 @@ public class StorageLocationFragment extends ListFragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
@@ -60,16 +54,25 @@ public class StorageLocationFragment extends ListFragment {
 
 	public void refreshList()  {
 		Log.d("Storage Location List","Refreshing List");
-		AsyncTask<String, Integer, JSONObject> task = new slTask().execute("GET", urlPart);
+		PartKeeprConnectorApp pa = (PartKeeprConnectorApp)(getActivity().getApplication());
+		AsyncTask<String, Integer, JSONObject> task = new slTask().execute("GET", pa.getBase_url(), urlPart, pa.getmSession().getSessId());
 	}
 	
 	private class slTask extends GetRestTask {
 
 		@Override
+		protected JSONObject doInBackground(String... strings) {
+			JSONObject result = super.doInBackground(strings);
+
+			storageLocations = JsonParser.parseStorageLocationList(result);
+			
+			return result;
+		}
+
+		@Override
 		protected void onPostExecute(JSONObject result) {
 			super.onPostExecute(result);
 
-			storageLocations = JsonParser.parseStorageLocationList(result);
 			if (storageLocations != null) {
 				SLNames = new ArrayList<String>();
 				for (StorageLocation sl : storageLocations) {

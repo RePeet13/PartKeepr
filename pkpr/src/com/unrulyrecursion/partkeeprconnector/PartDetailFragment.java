@@ -36,7 +36,7 @@ public class PartDetailFragment extends Fragment {
 			return null;
 		}
 		
-		View v = inflater.inflate(R.layout.fragment_part_detail, container, false);
+		View v = inflater.inflate(R.layout.fragment_part_detail_new, container, false);
 		
 		cur = (Part) getArguments().getSerializable("part");
 		
