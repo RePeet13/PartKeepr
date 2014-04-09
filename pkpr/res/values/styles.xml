@@ -17,4 +17,33 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="hrule">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/hrule_size</item>
+        <item name="android:layout_marginTop">@dimen/hrule_margin_t</item>
+        <item name="android:layout_marginBottom">@dimen/hrule_margin_b</item>
+        <item name="android:layout_marginRight">@dimen/hrule_margin_rl</item>
+        <item name="android:layout_marginLeft">@dimen/hrule_margin_rl</item>
+        <item name="android:background">@color/h_rule</item>
+    </style>
+
+    <style name="partkeepr_text" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">50dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="typeface">UbuntuBoldItalic</item>
+        <item name="android:shadowColor">@color/dark_gray</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="partkeepr_text_logo_bg" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">40dp</item>
+        <item name="android:paddingBottom">30dp</item>
+        <item name="android:background">@drawable/login_bg</item>
+        <item name="android:textAppearance">@style/partkeepr_text</item>
+    </style>
 </resources>

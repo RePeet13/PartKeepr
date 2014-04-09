@@ -1,5 +1,7 @@
 package com.unrulyrecursion.partkeeprconnector;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.unrulyrecursion.partkeeprconnector.utilities.SessionManagement;
 import com.unrulyrecursion.partkeeprconnector.utilities.TypefaceSpan;
 
@@ -19,17 +21,19 @@ public class PartKeeprConnectorApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		imageLoader.init(ImageLoaderConfiguration.createDefault(getBaseContext()));
 		/*
 		// src - http://www.androidhive.info/2012/02/android-using-external-fonts/
         // Load Font Face
-		String fontPath = "fonts/Ubuntu/Ubuntu-BoldItalic.ttf";
+		String fontPath = "fonts/Ubuntu/Ubuntu_BoldItalic.ttf";
         tf = Typeface.createFromAsset(getAssets(), fontPath);
         */
 		
 		// From Stack Overflow
 		// src - http://stackoverflow.com/questions/8607707/how-to-set-a-custom-font-in-the-actionbar-title
 		s = new SpannableString("PartKeepr");
-		s.setSpan(new TypefaceSpan(getBaseContext(), "Ubuntu/Ubuntu-BoldItalic.ttf"), 0, s.length(),
+		s.setSpan(new TypefaceSpan(getBaseContext(), "Ubuntu/Ubuntu_BoldItalic.ttf"), 0, s.length(),
 		        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 

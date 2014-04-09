@@ -4,5 +4,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="detail_img">160dp</dimen>
+    <dimen name="hrule_size">1dp</dimen>
+    <dimen name="hrule_margin_t">20dp</dimen>
+    <dimen name="hrule_margin_b">5dp</dimen>
+    <dimen name="hrule_margin_rl">2dp</dimen>
+    <dimen name="login_block">35dp</dimen>
+    <dimen name="login_block_margin">10dp</dimen>
 
 </resources>

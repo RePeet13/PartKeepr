@@ -1,12 +1,18 @@
 package com.unrulyrecursion.partkeeprconnector.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class Part implements Serializable {
 
 	private String name, description, status, categoryPath, createDate, comment, pcName, storageLocName; // TODO better format for date?
 	private int id, categoryId, storageLocId, attachmentCount;
+	private Set<Integer> attachIds;
 	private boolean needsReview;
+	// private List<PartAttachments> attachments; // TODO may need/want this
 	
 /*
 	private static final String TAG_P_NAME = "name";
@@ -35,7 +41,7 @@ public class Part implements Serializable {
 	
 	public Part (String name, String desc, String status, String createDate, String comment, 
 			String pcName, String storageLocName, String categoryPath, int id, int categoryId, 
-			int storageLocId, int attachmentCount, Boolean needsReview) {
+			int storageLocId, int attachmentCount, Boolean needsReview, Set<Integer> attachIds) {
 		this.name = name;
 		this.description = desc;
 		this.status = status;
@@ -49,6 +55,7 @@ public class Part implements Serializable {
 		this.setCategoryPath(categoryPath);
 		this.attachmentCount = attachmentCount;
 		this.needsReview = needsReview;
+		this.attachIds = attachIds;
 	}
 
 	// Constructor to aid in JSON parsing
@@ -66,6 +73,7 @@ public class Part implements Serializable {
 		this.setCategoryPath("");
 		this.attachmentCount = 0;
 		this.needsReview = false;
+		this.attachIds = new TreeSet<Integer>();
 	}
 	
 	@Override
@@ -174,5 +182,17 @@ public class Part implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Set<Integer> getAttachIds() {
+		return attachIds;
+	}
+
+	public void setAttachIds(Set<Integer> attachIds) {
+		this.attachIds = attachIds;
+	}
+	
+	public void addAttachId(int i) {
+		attachIds.add(i);
 	}
 }

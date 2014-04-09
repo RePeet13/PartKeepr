@@ -1,182 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:paddingLeft="@dimen/activity_horizontal_margin" 
+    android:paddingRight="@dimen/activity_horizontal_margin" >
 
     <TextView
         android:id="@+id/detailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="5dp"
         android:text="@+string/partDetail"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+    
+    <View 
+        android:id="@+id/hrule"
+        android:layout_below="@id/detailTitle"
+        style="@style/hrule" />
+    
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="match_parent"
+        android:layout_below="@id/hrule" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/detail"
+                android:id="@+id/detailDescription_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+            	android:layout_alignParentTop="true"
                 android:text="@+string/descriptionDetail"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/detailDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@+string/categoryDetail"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/detailCategory"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@+string/stockLevelDetail"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/detailStockLevel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="number"
-                    android:text="0"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@+string/storageLocationDetail"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-                <!-- Spinner of locations? maybe should be different -->
-
-                <TextView
-                    android:id="@+id/detailStorageLocation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@+string/commentDetail"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/detailComment"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@+string/createDateDetail"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
-                    android:id="@+id/detailCreateDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </LinearLayout>
+                android:layout_below="@id/detailDescription_title"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+            
+		    <View 
+		        android:id="@+id/hrule1"
+		        android:layout_below="@id/detailDescription"
+        		style="@style/hrule" />
 
             <TextView
+                android:id="@+id/detailCategory_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/hrule1"
+                android:layout_alignParentLeft="true"
+                android:text="@+string/categoryDetail"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/detailCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/detailCategory_title"
+                android:layout_below="@id/hrule1"
+                android:layout_alignParentRight="true"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+            
+		    <View 
+		        android:id="@+id/hrule2"
+		        android:layout_below="@id/detailCategory_title"
+        		style="@style/hrule" />
+
+            <TextView
+                android:id="@+id/stockLevelDetail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule2"
+                android:layout_alignParentLeft="true"
+                android:text="@+string/stockLevelDetail"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/detailStockLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule2"
+                android:layout_alignParentRight="true"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <View 
+		        android:id="@+id/hrule3"
+		        android:layout_below="@id/stockLevelDetail_title"
+        		style="@style/hrule" />
+		    
+            <TextView
+                android:id="@+id/detailStorageLocation_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule3"
+                android:layout_alignParentLeft="true"
+                android:text="@+string/storageLocationDetail"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/detailStorageLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule3"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/detailStorageLocation_title"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+ 
+		    <View 
+		        android:id="@+id/hrule4"
+		        android:layout_below="@id/detailStorageLocation_title"
+        		style="@style/hrule" />
+		    
+            <TextView
+                android:id="@+id/detailComment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule4"
+                android:layout_alignParentLeft="true"
+                android:text="@+string/commentDetail"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/detailComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule4"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/detailComment_title"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <View 
+		        android:id="@+id/hrule5"
+		        android:layout_below="@id/detailComment_title"
+        		style="@style/hrule" />
+		    
+            <TextView
+                android:id="@+id/detailCreateDate_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule5"
+                android:layout_alignParentLeft="true"
+                android:text="@+string/createDateDetail"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/detailCreateDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule5"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/detailCreateDate_title"
+                android:textStyle="italic"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <View 
+		        android:id="@+id/hrule6"
+		        android:layout_below="@id/detailCreateDate_title"
+        		style="@style/hrule" />
+		    
+            <TextView
+                android:id="@+id/detailImg_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hrule6"
+                android:layout_alignParentLeft="true"
                 android:paddingLeft="20dp"
                 android:text="@+string/imagesDetail"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <HorizontalScrollView
-                android:id="@+id/horizontalScrollView1"
+                android:id="@+id/imageScroll"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="@dimen/detail_img"
+                android:layout_below="@id/detailImg_title" >
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" >
+                    android:layout_height="@dimen/detail_img" >
 
                     <ImageButton
                         android:id="@+id/detailAddImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
                         android:contentDescription="Button to activate image chooser"
                         android:onClick="addImage()"
                         android:src="@android:drawable/ic_menu_camera" />
 
-                    <TextView
+                    <ImageView 
+                        android:id="@+id/imgTest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/detail_img" />
+                    
+                    <FrameLayout
+                        android:id="@+id/imageFrame"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="20dp"
-                        android:text="@+string/noImages"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-                </LinearLayout>
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@id/detailAddImage" />
+                </RelativeLayout>
             </HorizontalScrollView>
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>

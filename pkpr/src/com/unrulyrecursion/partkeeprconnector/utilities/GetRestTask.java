@@ -21,13 +21,7 @@ import android.util.Log;
 public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 
 		private String[] urlParts;
-		
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-		}
-		
+
 		@Override
 		protected JSONObject doInBackground(String... strings) {
 			/*
@@ -87,7 +81,7 @@ public class GetRestTask extends AsyncTask<String, Integer, JSONObject> {
 					// TODO should print exception out and stop response check
 				}
 				JSONObject response = result.getJSONObject(JsonParser.TAG_RESPONSE);
-				Log.d("Get REST Task", response.toString());
+				//Log.d("Get REST Task", response.toString());
 
 				return response;
 				

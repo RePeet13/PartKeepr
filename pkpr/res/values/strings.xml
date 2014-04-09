@@ -6,10 +6,6 @@
     <string name="ok">OK</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string-array name="serverList">
-        <item >http://sterlingthoughts.homelinux.com:7331/PartKeepr/frontend/rest.php/</item>
-        <item >http://serverone.com/PartKeepr/frontend</item>
-    </string-array>
     <string name="descriptionDetail">Description</string>
     <string name="categoryDetail">Category</string>
     <string name="stockLevelDetail">Stock Level</string>
@@ -24,7 +20,7 @@
         <item >Part List</item>
         <item >Part Detail</item>
     </string-array>
-    <string name="loginButton">LOGIN</string>
+    <string name="loginButton">Login</string>
     <string name="noServer">Not Connected to Server</string>
     <string name="serverHint">New Server URL</string>
     <string name="success"><i>Success</i></string>
@@ -33,5 +29,7 @@
     <string name="upLevel">Up a level</string>
     <string name="partDetail">Part Detail</string>
     <string name="description_server_balls">Freshness indicator of the session</string>
+    <string name="partkeepr">PartKeepr</string>
+    <string name="clearButton">Clear</string>
 
 </resources>

@@ -12,6 +12,7 @@
     -->
     
 	<!-- To change title strip font <com.unrulyrecursion.partkeeprconnector.utilities.PkprPagerTitle -->
+	<!-- TODO might want to change this to a two button approach -->
     <android.support.v4.view.PagerTitleStrip
         android:id="@+id/pager_title_strip"
         android:layout_width="match_parent"

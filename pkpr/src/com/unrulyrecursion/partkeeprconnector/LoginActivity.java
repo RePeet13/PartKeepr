@@ -34,14 +34,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class LoginActivity extends Activity implements OnItemSelectedListener {
-
-	ArrayList<ArrayList<String>> spinnerStuff;
+public class LoginActivity extends Activity {
 
 	private SessionManagement session;
 	private static String url; // "Auth/login";
-	private String spinSelect;
-	public static final String FILE_NAME = "servers";
 	private SharedPreferences sp;
 	private ServerCursorAdapter sAdapter;
 	private SavedServers ss;
@@ -50,15 +46,11 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().hide();
 		setContentView(R.layout.activity_login);
-		// From Stack Overflow
-		// src -
-		// http://stackoverflow.com/questions/8607707/how-to-set-a-custom-font-in-the-actionbar-title
-
-		// Update the action bar title with the TypefaceSpan instance
-		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(((PartKeeprConnectorApp) getApplication())
-				.getActionBarTitle());
+		
+		TextView logo = (TextView) findViewById(R.id.login_title);
+		logo.setText(((PartKeeprConnectorApp)getApplication()).getActionBarTitle());
 	}
 
 	@Override
@@ -67,28 +59,12 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 
 		dbh = new DBHelper(getBaseContext());
 		Cursor c = dbh.getSavedServers();
-		// String[] from = new String[]
-		// {DBSchema.ServerCreds.COLUMN_NAME_BASE_URL,
-		// DBSchema.ServerCreds.COLUMN_NAME_USERNAME};
-		// int[] to = new int[] {R.id.server1, R.id.server2};
-		//
-		// sAdapter = new SimpleCursorAdapter(getBaseContext(), R.id.serverList,
-		// c, from, to, 0);
+
 		sAdapter = new ServerCursorAdapter(getBaseContext(),
 				R.layout.entry_server_session, c, 0);
 		ListView lv = (ListView) findViewById(R.id.serverList);
 		lv.setAdapter(sAdapter);
-		// ImageView iv = (ImageView) parent.findViewById(R.id.serverFresh);
-		// iv.setImageDrawable(drawable)
 
-		Resources res = getResources();
-
-		// dbh = new DBHelper(getBaseContext());
-		// SQLiteDatabase db = dbh.getReadableDatabase(); // TODO might need to
-		// be in async task
-		// spinnerStuff = dbh.getSavedServers(db);
-
-		// ListView lv = (ListView) findViewById(R.id.serverList);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -101,24 +77,7 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 			}
 
 		});
-		String[] serverList = res.getStringArray(R.array.serverList);
 
-		Spinner spinner = (Spinner) findViewById(R.id.serverSpinner);
-
-		spinner.setOnItemSelectedListener(this);
-		// String[] SArr = (String[])spinnerStuff.get(0).toArray();
-		// if (spinnerStuff.get(0).size() == 0) {
-		// SArr = new String[2];
-		// SArr[0] = "No Servers Saved"; // TODO Probably should be a resource
-		// }
-
-		ArrayAdapter<CharSequence> aa = new ArrayAdapter<CharSequence>(
-				getBaseContext(), android.R.layout.simple_spinner_item,
-				serverList);
-		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(aa);
-
-		// db.close();
 	}
 
 	public void setUrl(String url) { // TODO call from url chooser
@@ -139,7 +98,8 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 		String url = ((EditText) findViewById(R.id.serverText)).getText()
 				.toString();
 		if (url == null || url.compareToIgnoreCase("") == 0) {
-			url = spinSelect;
+			// TODO toast "missing server"
+			return;
 		}
 
 		session = new SessionManagement(this, url);
@@ -186,29 +146,15 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 				e.printStackTrace();
 			}
 			if (response) {
-				// TODO Save details for list // TODO delete saved servers in
-				// favor of db
-				/*
-				 * if (ss != null) { ss.accessServer(url, user); } else { //
-				 * likely is not a shared pref file yet, make one ss = new
-				 * SavedServers(); ss.addServer(url, user, session.getSessId());
-				 * }
-				 */
 
 				Log.d("Login Activity", "Calling DBHelper for successful login");
 				dbh.accessedServer(getBaseContext(), url, user,
 						session.getSessId());
 
-				/*
-				 * TODO Remove this (using db now ObjectOutputStream os; try {
-				 * os = new
-				 * ObjectOutputStream(getBaseContext().openFileOutput(FILE_NAME,
-				 * 0)); os.writeObject(ss); os.close(); Log.d("Login Activity",
-				 * "Wrote out saved servers file"); } catch
-				 * (FileNotFoundException e) { // TODO Auto-generated catch
-				 * block e.printStackTrace(); } catch (IOException e) { // TODO
-				 * Auto-generated catch block e.printStackTrace(); }
-				 */
+				// Inform Singleton
+				PartKeeprConnectorApp pk = (PartKeeprConnectorApp) getApplication();
+				pk.setmSession(session);
+				pk.setBase_url(url);
 
 				// Open new Activity
 				tv.setText(R.string.success);
@@ -227,25 +173,15 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 		}
 	}
 
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int pos,
-			long id) {
-		spinSelect = parent.getItemAtPosition(pos).toString();
-		Log.d("Spinner Selected", "selected: " + spinSelect);
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
-		spinSelect = null;
-		Log.d("Spinner Unselected", "selected: " + spinSelect);
-	}
-
 	public void SavedServerClick(View v) {
-		TextView tUrl = (TextView) v.findViewById(R.id.server1);
-		TextView tName = (TextView) v.findViewById(R.id.server2);
+		TextView tUrl = (TextView) v.findViewById(R.id.server1); // TODO parse
+																	// this by @
+																	// symbol
 		TextView tSid = (TextView) v.findViewById(R.id.serverSID);
 		String url = tUrl.getText().toString();
-		String name = tName.getText().toString();
+		String[] parts = url.split("@");
+		String name = parts[0];
+		url = parts[1];
 		String sid = tSid.getText().toString();
 
 		Log.d("Login Activity", "Saved server selected: " + name + " - " + sid
@@ -293,22 +229,15 @@ public class LoginActivity extends Activity implements OnItemSelectedListener {
 		}
 
 		@Override
-		public void bindView(View v, Context context, Cursor cursor) { // TODO
-																		// log
-																		// these
-																		// out,
-																		// add
-																		// button
-																		// listeners
+		public void bindView(View v, Context context, Cursor cursor) {
 			Log.d("ServerCursorAdapter", "Building new server entry");
 			TextView url = (TextView) v.findViewById(R.id.server1);
 			url.setText(cursor.getString(cursor
-					.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_BASE_URL)));
+					.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_USERNAME))
+					+ "@"
+					+ cursor.getString(cursor
+							.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_BASE_URL)));
 			Log.d("ServerCursorAdapter", "Setting url to: " + url.getText());
-			TextView name = (TextView) v.findViewById(R.id.server2);
-			name.setText(cursor.getString(cursor
-					.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_USERNAME)));
-			Log.d("ServerCursorAdapter", "Setting name to: " + name.getText());
 			TextView sid = (TextView) v.findViewById(R.id.serverSID);
 			sid.setText(cursor.getString(cursor
 					.getColumnIndex(DBSchema.ServerCreds.COLUMN_NAME_SESSION_ID)));

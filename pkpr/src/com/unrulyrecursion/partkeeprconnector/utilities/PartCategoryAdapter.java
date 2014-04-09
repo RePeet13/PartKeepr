@@ -44,7 +44,8 @@ public class PartCategoryAdapter extends ArrayAdapter<PartCategory> {
 	}
 	
 	public PartCategory onItemClick (AdapterView<?> parent, View view, int position, long id) {
-		Log.d("Part Category LF", "You clicked position " + position);
+		//Log.d("Part Category LF", "You clicked position " + position);
+		
 		/*
 		for(int i = 0; i < current.size(); i++){
 			Log.d("Part Category LF", current.get(i).toString() + " pos: " + i);
@@ -152,13 +153,13 @@ public class PartCategoryAdapter extends ArrayAdapter<PartCategory> {
 			view = inflater.inflate(android.R.layout.simple_list_item_2, null);
 		}
 		
-		Log.d("PC Adapter", "Makin a view! pos: " + position + " of " + current.size()); // TODO delete
+		// Log.d("PC Adapter", "Makin a view! pos: " + position + " of " + current.size()); // TODO delete
 	    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
 	    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 	    
 	    text1.setText(current.get(position).getName());
 	    text2.setText(current.get(position).getDescription());
-		Log.d("PC Adapter", "View made, pos: " + position);
+		// Log.d("PC Adapter", "View made, pos: " + position);
 		    
 		    /*
 		    if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {

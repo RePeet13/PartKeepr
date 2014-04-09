@@ -109,7 +109,7 @@ public class SessionManagement {
 			nameValuePairs.add(new BasicNameValuePair("username", username));
 			nameValuePairs.add(new BasicNameValuePair("password", passHash));
 
-			Log.d("Session Management", "Adding namevalue pairs)");
+			Log.d("Session Management", "Adding namevalue pairs");
 			try {
 				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,
 						"UTF-8"));
@@ -147,6 +147,7 @@ public class SessionManagement {
 				Log.d("SessionMgt", "Successful Login");
 				createLoginSession(username, sess);
 				session = sess;
+				return true;
 			} else {
 				Log.d("SessionMgt", "Login not successful");
 				return false;
