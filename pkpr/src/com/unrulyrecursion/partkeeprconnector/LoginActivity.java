@@ -110,6 +110,7 @@ public class LoginActivity extends Activity {
 		
 	}
 	
+	// TODO make base_url input much more robust
 	private void doLogin(String url, String user, String pass, String passHash) {
 		// TODO need passHash to be passed in?
 		session = new SessionManagement(this, url);

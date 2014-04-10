@@ -2,28 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/official_end_color" >
-    
-    <TextView 
-        android:id="@+id/crumbs"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_marginTop="10dip"
-        android:layout_marginBottom="10dip"
-        android:textColor="@color/white"
-        android:shadowColor="@color/dark_gray"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="2"
-        />
+    android:orientation="vertical" >    
     
 	<ListView android:id="@id/android:list"
                android:layout_width="match_parent"
                android:layout_height="0dp"
                android:layout_weight="1"
                style="@style/list_detail"
+               android:layout_marginTop="20dp"
                android:background="@drawable/roundy_corners"
                android:drawSelectorOnTop="false"/>
 

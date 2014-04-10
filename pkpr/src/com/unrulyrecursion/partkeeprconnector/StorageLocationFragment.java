@@ -24,12 +24,13 @@ public class StorageLocationFragment extends ListFragment {
 	private ArrayList<StorageLocation> storageLocations;
 	private ArrayList<String> SLNames;
 	private ArrayAdapter<String> adapter;
+	private View mView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		return super.onCreateView(inflater, container, savedInstanceState);
+		mView = inflater.inflate(R.layout.fragment_storage_location_list, container, false);
+		return mView;
 	}
 
 	@Override
