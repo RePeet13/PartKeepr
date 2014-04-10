@@ -9,10 +9,10 @@ Function
 -Example BODY
 -Example Return
 
-Login - Get SessionID (to authenticate the rest of calls)
-- POST: PartKeepr/frontend/rest.php/Auth/login
-- {"username":"taylor","password":"13b73edae8443990be1aa8f1a483bc27"}
-- {"status":"ok","success":true,"response":{"sessionid":"1llje0297nfucah86f41me9ea2","username":"taylor","admin":false,"userPreferences":{"response":{"data":[{"key":"partkeepr.tipoftheday.showtips","value":true,"user_id":2}]}}},"timing":0.12198996543884}
+Login (to Demo) - Get SessionID (to authenticate the rest of calls)
+- POST: http://demo.partkeepr.org/rest.php/Auth/login ( PartKeepr/frontend/rest.php/Auth/login )
+- {"username":"admin","password":"21232f297a57a5a743894a0e4a801fc3"}:
+- {"status":"ok","success":true,"response":{"sessionid":"1llje0297nfucah86f41me9ea2","username":"admin","admin":true,"userPreferences":{"response":{"data":[{"key":"partkeepr.tipoftheday.showtips","value":true,"user_id":2}]}}},"timing":0.12198996543884}
 
 Get All Categories
 - POST: PartKeepr/frontend/rest.php/PartCategory/getAllCategories
@@ -53,6 +53,7 @@ Delete User
 Get All Users
 - GET: PartKeepr/frontend/rest.php/User?_dc=1392903905434&page=1&start=0&limit=-1 : _dc:1392903905434 page:1 start:0 limit:-1
 - {"status":"ok","success":true,"response":{"data":[{"id":1,"username":"admin"},{"id":3,"username":"Julie"},{"id":7,"username":"Sterling"},{"id":2,"username":"Taylor"}],"totalCount":"4"},"timing":0.071290016174316}
+
 
 Formatted Nice
 

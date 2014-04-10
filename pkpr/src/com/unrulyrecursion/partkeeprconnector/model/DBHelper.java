@@ -49,6 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.execSQL(DBSchema.SQL_CREATE_SERVERS);
 		db.execSQL(DBSchema.SQL_CREATE_PARTS);
 		db.execSQL(DBSchema.SQL_CREATE_PART_CATEGORIES);
+		db.execSQL(DBSchema.SQL_ADD_DEMO);
 	}
 
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

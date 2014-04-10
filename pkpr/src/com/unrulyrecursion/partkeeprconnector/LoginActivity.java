@@ -84,6 +84,10 @@ public class LoginActivity extends Activity {
 		session.setBaseUrl(url);
 	}
 
+	public void clearLogin(View view) {
+		// TODO clear out text fields
+	}
+	
 	public void initiateLogin(View view) {
 		Log.d("Login", "Initiating Login");
 
@@ -97,11 +101,17 @@ public class LoginActivity extends Activity {
 
 		String url = ((EditText) findViewById(R.id.serverText)).getText()
 				.toString();
-		if (url == null || url.compareToIgnoreCase("") == 0) {
-			// TODO toast "missing server"
+		if (url == null || url.compareToIgnoreCase("") == 0 || user == null || user.compareToIgnoreCase("") == 0 || pass == null || pass.compareToIgnoreCase("") == 0) {
+			// TODO toast "missing some credential"
 			return;
+		} else {
+			doLogin(url, user, pass, passHash);
 		}
-
+		
+	}
+	
+	private void doLogin(String url, String user, String pass, String passHash) {
+		// TODO need passHash to be passed in?
 		session = new SessionManagement(this, url);
 
 		try {
@@ -183,6 +193,11 @@ public class LoginActivity extends Activity {
 		String name = parts[0];
 		url = parts[1];
 		String sid = tSid.getText().toString();
+		
+		if (url.compareToIgnoreCase("http://demo.partkeepr.org/rest.php/") == 0) {
+			doLogin(url, name, "admin", "null");
+			return;
+		}
 
 		Log.d("Login Activity", "Saved server selected: " + name + " - " + sid
 				+ " - " + url);

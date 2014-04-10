@@ -6,6 +6,13 @@ public final class DBSchema {
     
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ", ";
+	public static final String SQL_ADD_DEMO = "INSERT OR REPLACE INTO " + 
+			ServerCreds.TABLE_NAME + "(" + ServerCreds.COLUMN_NAME_BASE_URL + COMMA_SEP + 
+			ServerCreds.COLUMN_NAME_USERNAME + COMMA_SEP + 
+			ServerCreds.COLUMN_NAME_PASSWORD + COMMA_SEP + 
+			ServerCreds.COLUMN_NAME_SESSION_ID + 
+			") VALUES (\"http://demo.partkeepr.org/rest.php/\", \"admin\", " + 
+			"\"21232f297a57a5a743894a0e4a801fc3\", \"1llje0297nfucah86f41me9ea2\")";
     
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.

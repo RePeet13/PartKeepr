@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:paddingTop="?android:attr/actionBarSize" >
-	<!-- android:background="@drawable/bg" -->
+	android:background="@color/official_end_color" >
+	<!-- 
+    android:paddingTop="?android:attr/actionBarSize" -->
     <!--
     This title strip will display the currently visible page title, as well as the page
     titles for adjacent pages.
@@ -18,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="#bbbbbb"
+        android:background="@drawable/bg"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:textColor="#fff" />
