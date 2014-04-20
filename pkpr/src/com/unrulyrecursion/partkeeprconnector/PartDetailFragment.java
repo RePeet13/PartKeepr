@@ -15,9 +15,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.unrulyrecursion.partkeeprconnector.model.Part;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,14 +31,17 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PartDetailFragment extends Fragment {
 
 	private FragmentActivity mActivity;
 	private Part cur;
+	private IntentIntegrator ii;
 
 	public static PartDetailFragment newInstance(Part in) {
 		Log.d("Part Detail Fragment", "Statically creating fragment");
@@ -55,6 +60,8 @@ public class PartDetailFragment extends Fragment {
 		Log.d("Part Detail Fragment", "Creating View");
 		mActivity = getActivity();
 		
+		ii = new IntentIntegrator(this);
+		
 		if (container == null) {
 			return null;
 		}
@@ -70,14 +77,19 @@ public class PartDetailFragment extends Fragment {
 			title.setText(cur.getName());
 			Log.d("Part Detail Fragment", "Creating view for " + cur.getName());
 
+			TextView sl = (TextView) v.findViewById(R.id.detailStockLevel);
+			sl.setText(cur.getStockLevel()+"");
+			
+			TextView msl = (TextView) v.findViewById(R.id.detailMinStockLevel);
+			msl.setText(cur.getMinStockLevel()+"");
+
 			TextView desc = (TextView) v.findViewById(R.id.detailDescription);
 			desc.setText(cur.getDescription());
 
 			TextView category = (TextView) v.findViewById(R.id.detailCategory);
 			category.setText(cur.getPcName());
 
-			TextView storLoc = (TextView) v
-					.findViewById(R.id.detailStorageLocation);
+			TextView storLoc = (TextView) v.findViewById(R.id.detailStorageLocation);
 			storLoc.setText(cur.getStorageLocName());
 
 			TextView comment = (TextView) v.findViewById(R.id.detailComment);
@@ -108,13 +120,10 @@ public class PartDetailFragment extends Fragment {
 					}
 //				}
  */
-			}
 
-			/*
-			 * TODO implement if needed/wanted TextView stock = (TextView)
-			 * v.findViewById(R.id.detailStockLevel);
-			 * category.setText(cur.getStock() + "");
-			 */
+			}
+			
+
 
 			/*
 			 * 
@@ -129,6 +138,17 @@ public class PartDetailFragment extends Fragment {
 		return v;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		getView().findViewById(R.id.detailScanBarcode).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				scanCode(arg0);
+			}});
+	}
+
 	public int getShownIndex() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -136,6 +156,37 @@ public class PartDetailFragment extends Fragment {
 	
 	public void addImage(View v) {
 		
+	}
+
+	// src - http://wowjava.wordpress.com/2011/02/25/scanning-barcode-from-android-application/
+	public void scanCode(View v) {
+		Log.d("Part Detail Fragment", "Initiating Scan");
+		ii.initiateScan();
+		/*
+		Intent i = new Intent("com.google.zxing.client.android.SCAN");
+		i.setPackage("com.google.zxing.client.android");
+		i.putExtra("com.google.zxing.client.android.SCAN.SCAN_MODE", "QR_CODE_MODE");
+		startActivityForResult(i,0);
+		*/
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		Log.d("Part Detail Fragment", "onActivityResult");
+	    if (requestCode == IntentIntegrator.REQUEST_CODE) {
+	    	Log.d("result code", resultCode+"");
+	    	
+	        if (resultCode == Activity.RESULT_OK) {
+	            String contents = intent.getStringExtra("SCAN_RESULT");
+	            Toast toast = Toast.makeText(getActivity().getBaseContext(), contents,
+	    				Toast.LENGTH_SHORT);
+	    		toast.show();
+	            //et_code.setText(contents);
+	            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+	        } else if (resultCode == Activity.RESULT_CANCELED) {
+	            //et_code.setText("Please scan again");
+	        }
+	        
+	    }
 	}
 
 	private class getImgTask extends AsyncTask<Integer, Integer, Drawable> {

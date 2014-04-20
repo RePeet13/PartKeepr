@@ -40,6 +40,8 @@ public class PartCategoryListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		crumbs = new ArrayList<String>();
+		refreshList();
 	}
 
 	@Override
@@ -56,8 +58,6 @@ public class PartCategoryListFragment extends ListFragment {
 //			JSONObject jobj = JsonParser.getJSONFromUrl(url,MainActivity.session.getSessId());
 //			pc = JsonParser.parsePartCategories(jobj);
 
-			crumbs = new ArrayList<String>();
-			refreshList();
 		}
 		ListView lv = getListView();
 		lv.setOnItemLongClickListener(new OnItemLongClickListener() {

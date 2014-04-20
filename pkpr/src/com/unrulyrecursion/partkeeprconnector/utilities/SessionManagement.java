@@ -123,7 +123,10 @@ public class SessionManagement {
 			try {
 				Log.d("Session Management", "Executing Login POST");
 				response = httpClient.execute(httpPost);
-				res = new JSONObject(EntityUtils.toString(response.getEntity()));
+				// TODO should handle typical server responses (404, etc)
+				String resp =EntityUtils.toString(response.getEntity());
+				Log.d("Session Management", "Server Response: "+resp);
+				res = new JSONObject(resp);
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -125,41 +125,6 @@ public class JsonParser {
 		return null;
 	}
 
-	/*
-	 * public static JSONObject getJSONFromUrl(String url) { return
-	 * getJSONFromUrl(url, "none"); } public static JSONObject
-	 * getJSONFromUrl(String url, String sessionId) {
-	 * 
-	 * try { //grab the JSON data from the URL and return the entities of it.
-	 * HttpClient client = new DefaultHttpClient(); HttpGet request = new
-	 * HttpGet(url); if (sessionId.compareToIgnoreCase("none")!=0) {
-	 * request.setHeader("Cookie", "PHPSESSID=" + sessionId); } JSONArray res =
-	 * new JSONArray(EntityUtils.toString(client.execute(request).getEntity()));
-	 * 
-	 * Log.d("JSON Parser","Checking server response"); JSONObject o =
-	 * res.getJSONObject(0); String status = o.getString(TAG_STATUS); String
-	 * success = o.getString(TAG_SUCCESS); Double timing =
-	 * o.getDouble(TAG_TIMING); JSONObject response =
-	 * o.optJSONObject(TAG_RESPONSE);
-	 * 
-	 * if (status.compareToIgnoreCase("ok")==0) { // response is expected "ok"
-	 * Log.d("JSON Parser", "response status ok"); }
-	 * 
-	 * if (success.compareToIgnoreCase("true")==0) { Log.d("JSON Parser",
-	 * "response success true"); }
-	 * 
-	 * Log.d("JSON Parser", "Timing:"+timing);
-	 * 
-	 * return response;
-	 * 
-	 * } catch (ParseException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } catch (ClientProtocolException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } catch (JSONException e)
-	 * { // TODO Auto-generated catch block e.printStackTrace(); } catch
-	 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace();
-	 * } return null; }
-	 */
-
 	public static PartCategory parsePartCategories(JSONObject in) {
 		if (log)
 			Log.d("JSON PC Parser", "Parsing Part Categories");
@@ -238,7 +203,11 @@ public class JsonParser {
 
 			if (in.has(TAG_TOTAL_COUNT)) {
 				total = in.getInt(TAG_TOTAL_COUNT);
+				if (total > in.length()) {
+					total = in.length();
+				}
 			}
+			
 
 			if (log)
 				Log.d("JSON P Parser", "Total Parts: " + total);
@@ -280,6 +249,12 @@ public class JsonParser {
 				}
 				if (otmp.has(TAG_P_ATTACHMENT_COUNT)) {
 					p.setAttachmentCount(otmp.getInt(TAG_P_ATTACHMENT_COUNT));
+				}
+				if (otmp.has(TAG_P_STOCK_LEVEL)) {
+					p.setStockLevel(otmp.getInt(TAG_P_STOCK_LEVEL));
+				}
+				if (otmp.has(TAG_P_MIN_STOCK_LEVEL)) {
+					p.setMinStockLevel(otmp.getInt(TAG_P_MIN_STOCK_LEVEL));
 				}
 				if (otmp.has(TAG_P_CATEGORY_PATH)) {
 					p.setCategoryPath(otmp.getString(TAG_P_CATEGORY_PATH));

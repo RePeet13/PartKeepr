@@ -8,7 +8,7 @@
     <string name="password">Password</string>
     <string name="descriptionDetail">Description</string>
     <string name="categoryDetail">Category</string>
-    <string name="stockLevelDetail">Stock Level</string>
+    <string name="stockLevelDetail">Stock</string>
     <string name="storageLocationDetail">Storage Location</string>
     <string name="commentDetail">Comment</string>
     <string name="createDateDetail">Creation Date</string>
@@ -31,5 +31,6 @@
     <string name="description_server_balls">Freshness indicator of the session</string>
     <string name="partkeepr">PartKeepr</string>
     <string name="clearButton">Clear</string>
+    <string name="minStockLevelDetail">Min. Stock</string>
 
 </resources>

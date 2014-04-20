@@ -34,7 +34,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity {	
 
 	private SessionManagement session;
 	private static String url; // "Auth/login";

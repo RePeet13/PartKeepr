@@ -6,13 +6,17 @@
     <dimen name="detail_img">160dp</dimen>
     
     <dimen name="hrule_size">1dp</dimen>
-    <dimen name="hrule_margin_t">20dp</dimen>
+    <dimen name="hrule_margin_t">10dp</dimen>
     <dimen name="hrule_margin_b">5dp</dimen>
     <dimen name="hrule_margin_rl">2dp</dimen>
+    
+    <dimen name="vrule_margin_rl">15dp</dimen>
     
     <dimen name="login_block">35dp</dimen>
     <dimen name="login_block_margin">10dp</dimen>
     
     <dimen name="list_detail_lr">15dp</dimen>
+    
+    <dimen name="part_detail_margin">5dp</dimen>
 
 </resources>

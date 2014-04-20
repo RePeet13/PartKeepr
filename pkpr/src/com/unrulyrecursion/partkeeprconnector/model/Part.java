@@ -9,7 +9,7 @@ import java.util.TreeSet;
 public class Part implements Serializable {
 
 	private String name, description, status, categoryPath, createDate, comment, pcName, storageLocName; // TODO better format for date?
-	private int id, categoryId, storageLocId, attachmentCount;
+	private int id, categoryId, storageLocId, attachmentCount, stockLevel, minStockLevel;
 	private Set<Integer> attachIds;
 	private boolean needsReview;
 	// private List<PartAttachments> attachments; // TODO may need/want this
@@ -41,7 +41,8 @@ public class Part implements Serializable {
 	
 	public Part (String name, String desc, String status, String createDate, String comment, 
 			String pcName, String storageLocName, String categoryPath, int id, int categoryId, 
-			int storageLocId, int attachmentCount, Boolean needsReview, Set<Integer> attachIds) {
+			int storageLocId, int attachmentCount, Boolean needsReview, Set<Integer> attachIds,
+			int stockLevel, int minStockLevel) {
 		this.name = name;
 		this.description = desc;
 		this.status = status;
@@ -56,6 +57,8 @@ public class Part implements Serializable {
 		this.attachmentCount = attachmentCount;
 		this.needsReview = needsReview;
 		this.attachIds = attachIds;
+		this.stockLevel = stockLevel;
+		this.minStockLevel = minStockLevel;
 	}
 
 	// Constructor to aid in JSON parsing
@@ -74,6 +77,8 @@ public class Part implements Serializable {
 		this.attachmentCount = 0;
 		this.needsReview = false;
 		this.attachIds = new TreeSet<Integer>();
+		this.stockLevel = 0;
+		this.minStockLevel = 0;
 	}
 	
 	@Override
@@ -194,5 +199,21 @@ public class Part implements Serializable {
 	
 	public void addAttachId(int i) {
 		attachIds.add(i);
+	}
+
+	public int getStockLevel() {
+		return stockLevel;
+	}
+
+	public void setStockLevel(int stockLevel) {
+		this.stockLevel = stockLevel;
+	}
+
+	public int getMinStockLevel() {
+		return minStockLevel;
+	}
+
+	public void setMinStockLevel(int minStockLevel) {
+		this.minStockLevel = minStockLevel;
 	}
 }

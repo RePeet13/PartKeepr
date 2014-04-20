@@ -26,10 +26,26 @@
         <item name="android:layout_marginLeft">@dimen/hrule_margin_rl</item>
         <item name="android:background">@color/h_rule</item>
     </style>
+    <style name="vrule">
+        <item name="android:layout_width">@dimen/hrule_size</item>
+        <item name="android:layout_marginTop">@dimen/hrule_margin_t</item>
+        <item name="android:layout_marginBottom">@dimen/hrule_margin_b</item>
+        <item name="android:layout_marginRight">@dimen/vrule_margin_rl</item>
+        <item name="android:layout_marginLeft">@dimen/vrule_margin_rl</item>
+        <item name="android:background">@color/h_rule</item>
+    </style>
     
     <style name="list_detail" parent="@android:style/Widget.ListView">
         <item name="android:layout_marginRight">@dimen/list_detail_lr</item>
         <item name="android:layout_marginLeft">@dimen/list_detail_lr</item>
+    </style>
+    
+    
+    <style name="part_detail" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_marginTop">@dimen/part_detail_margin</item>
+        <item name="android:layout_marginBottom">@dimen/part_detail_margin</item>
+        <item name="android:layout_marginLeft">@dimen/list_detail_lr</item>
+        <item name="android:layout_marginRight">@dimen/list_detail_lr</item>
     </style>
 
     <style name="partkeepr_text" parent="@android:style/TextAppearance.Large">

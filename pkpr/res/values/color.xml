@@ -5,6 +5,10 @@
     <color name="official_start_color">#FF2067A3</color>
     <color name="login_block_start_color">#FFDDDDDD</color>
     <color name="login_block_end_color">#FFEEEEEE</color>
+    <color name="min_stock_start_color">#FFFF3333</color>
+    <color name="min_stock_end_color">#FFEE3333</color>
+    <color name="stock_start_color">#FF33FF33</color>
+    <color name="stock_end_color">#FF33EE33</color>
     
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#FFAAAAAA</color>

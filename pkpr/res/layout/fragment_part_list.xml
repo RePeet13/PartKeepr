@@ -11,12 +11,14 @@
                android:layout_weight="1"
                style="@style/list_detail"
                android:layout_marginTop="20dp"
-               android:background="@drawable/roundy_corners"
+               android:background="@drawable/roundy_top_corners"
                android:drawSelectorOnTop="false"/>
 
 	<!-- TODO style the empty thing -->
      <TextView android:id="@id/android:empty"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:text="No data"/>
+               android:text="No data"
+               android:layout_margin="@dimen/activity_horizontal_margin"
+               android:background="@drawable/roundy_corners" />
 </LinearLayout>
