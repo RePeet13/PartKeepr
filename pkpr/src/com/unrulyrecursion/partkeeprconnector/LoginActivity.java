@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.ResourceCursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,6 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,6 +44,7 @@ public class LoginActivity extends Activity {
 	private ServerCursorAdapter sAdapter;
 	private SavedServers ss;
 	private DBHelper dbh;
+	private ProgressBar pb;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,14 @@ public class LoginActivity extends Activity {
 	}
 
 	@Override
+	public View onCreateView(String name, Context context, AttributeSet attrs) {
+		View v = super.onCreateView(name, context, attrs);
+		return v;
+	}
+
+
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 
@@ -62,6 +73,9 @@ public class LoginActivity extends Activity {
 
 		sAdapter = new ServerCursorAdapter(getBaseContext(),
 				R.layout.entry_server_session, c, 0);
+
+		pb = (ProgressBar) findViewById(R.id.loginProgress);
+		
 		ListView lv = (ListView) findViewById(R.id.serverList);
 		lv.setAdapter(sAdapter);
 
@@ -114,6 +128,7 @@ public class LoginActivity extends Activity {
 	private void doLogin(String url, String user, String pass, String passHash) {
 		// TODO need passHash to be passed in?
 		session = new SessionManagement(this, url);
+		session.setProgressBar(pb);
 
 		try {
 			Log.d("Initiating Login", "Trying Pass Hash");
@@ -204,6 +219,7 @@ public class LoginActivity extends Activity {
 				+ " - " + url);
 
 		session = new SessionManagement(this, url);
+		session.setProgressBar(pb);
 
 		session.createLoginSession(name, sid);
 		Map<String, String> m = session.getStatus();

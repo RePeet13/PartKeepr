@@ -27,6 +27,9 @@ import org.json.JSONObject;
 
 import com.unrulyrecursion.partkeeprconnector.MainActivity;
 import com.unrulyrecursion.partkeeprconnector.PartKeeprConnectorApp;
+import com.unrulyrecursion.partkeeprconnector.model.Part;
+import com.unrulyrecursion.partkeeprconnector.model.PartCategory;
+import com.unrulyrecursion.partkeeprconnector.model.StorageLocation;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,14 +37,19 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 public class SessionManagement {
 
 	public String base_url;
 	public String session_id;
+	private Map<String, String> status;
+	private ProgressBar pb;
 	private String loginUrlPart = "Auth/login";
 	private String statusUrlPart = "System/getSystemStatus";
-	private Map<String, String> status;
+	private String pcUrlPart = "PartCategory/getAllCategories";
+	private static String slUrlPart = "StorageLocation?_dc=1387642414789&page=1&start=0&limit=-1"; // TODO figure this out for real
 	/*
 	 * QueryAPI api;
 	 */
@@ -96,6 +104,7 @@ public class SessionManagement {
 	 * @param tSessionId
 	 */
 	public Boolean login(String username, String passHash, String tSessionId) {
+		// TODO might want to move this into asynctask since network
 		String session = tSessionId;
 		if (passHash != null && tSessionId == null) {
 			Log.d("Session Management", "Building Login POST");
@@ -259,6 +268,9 @@ public class SessionManagement {
 	}
 	
 	public Map<String, String> getStatus() {
+		// TODO REMOVE
+		AsyncTask<String, Integer, JSONObject> othertask = new GetAllDataTask().execute(
+			"POST", base_url, statusUrlPart, getSessId());
 
 		AsyncTask<String, Integer, JSONObject> task = new GetStatusTask().execute(
 				"POST", base_url, statusUrlPart, getSessId());
@@ -281,6 +293,14 @@ public class SessionManagement {
 		this.status = status;
 	}
 
+	public ProgressBar getProgressBar() {
+		return pb;
+	}
+
+	public void setProgressBar(ProgressBar pb) {
+		this.pb = pb;
+	}
+
 	private class GetStatusTask extends GetRestTask {
 
 		@Override
@@ -298,6 +318,97 @@ public class SessionManagement {
 			}
 			return response;
 		}
+	}
+	
+	// TODO Eventually put all urlparts into string resources, and allow editing (separate screen)
+	private class GetAllDataTask extends GetRestTask {
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pb.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected JSONObject doInBackground(String... strings) {
+			/*
+			 * Get Status
+			 */
+			JSONObject statusRes = super.doInBackground("POST", base_url, statusUrlPart, getSessId());
+			Log.d("GetStatusTask", "It worked!");
+			status = new HashMap<String, String>();
+			Map<String, String> tmp = JsonParser.parseStatus(statusRes);
+			if (tmp != null) {
+				status.putAll(tmp);
+				Log.d("GetStatusTask", "Success");
+			} else {
+				Log.d("GetStatusTask", "Failure");
+			}
+			
+			publishProgress(10);
+			/*
+			 * Get Part Categories
+			 */
+
+//			Log.d("Part Category LF", "Entering doInBackground");
+			JSONObject pcRes = super.doInBackground("POST", base_url, pcUrlPart, getSessId());
+			PartCategory pc = JsonParser.parsePartCategories(pcRes);
+			// TODO commit to db
+			publishProgress(35);
+			
+			/*
+			 * Get Storage Locations
+			 */
+
+			JSONObject slRes = super.doInBackground("GET", base_url, slUrlPart, getSessId());
+			ArrayList<StorageLocation> storageLocations = JsonParser.parseStorageLocationList(slRes);
+			// TODO commit to db
+			publishProgress(50);
+			
+			/*
+			 * Get Parts
+			 */
+			 
+			/* Part?_dc=1392816881375&category=10&page=1&start=0&limit=50&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D
+			 * This is a webapp generated url with the following properties
+			 * (the url is form encoded)
+			 * Query Params: 
+			 * _dc:1392816881375 //dc=don't cache, just a time in millis
+			 * category:10 
+			 * page:1 
+			 * start:0 
+			 * limit:50 
+			 * group:[{"property":"categoryPath","direction":"ASC"}] 
+			 * sort:[{"property":"categoryPath","direction":"ASC"},{"property":"name","direction":"ASC"}]
+			 * 
+			 * TODO figure out how this is generated and how I can handle generating it without the ugliness above
+			 * remove categorypath from the sort..
+			 * */
+			
+			ArrayList<Part> partsList = new ArrayList<Part>();
+			 for (PartCategory partc : pc.flatten()){
+				 String url = "Part?_dc=1392816881375&category="+partc.getId()+"&page=1&start=0&group=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%5D&sort=%5B%7B%22property%22%3A%22categoryPath%22%2C%22direction%22%3A%22ASC%22%7D%2C%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D";
+					
+				 JSONObject pRes = super.doInBackground("GET", base_url, url, getSessId());
+					partsList.addAll(JsonParser.parsePartsList(pRes));
+			 }
+			// TODO commit to db
+			 publishProgress(100);
+			
+			return statusRes;
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			pb.setProgress(values[0]);
+			Log.d("Session Login", "Progress - " + values[0] + "%");
+		}
+
+		@Override
+		protected void onPostExecute(JSONObject result) {
+			pb.setVisibility(View.GONE);
+		}
+		
 	}
 
 }

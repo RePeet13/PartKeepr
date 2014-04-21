@@ -95,4 +95,13 @@
         android:gravity="center"
         android:text="" />
 
+    <ProgressBar
+        android:id="@+id/loginProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_title"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
 </RelativeLayout>
